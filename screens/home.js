@@ -30,7 +30,7 @@ class Today extends Component {
         <Header />
         <Clock onPress={this.newRegistry}></Clock>
         <Wrapper>
-          <Text label>ÚLTIMOS REGISTROS</Text>
+          <Text title>ÚLTIMOS REGISTROS</Text>
           <Table depth={1} />
           <Button onPress={() => navigate('Registry')}>MEUS REGISTROS</Button>
         </Wrapper>

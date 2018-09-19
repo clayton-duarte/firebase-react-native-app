@@ -7,7 +7,8 @@ import Table from '../components/registryTable';
 import Wrapper from '../components/wrapper';
 import Header from '../components/header';
 import Button from '../components/button';
-import View from '../components/list';
+import List from '../components/list';
+import Text from '../components/text';
 
 class LoadScreen extends Component {
   constructor(props) {
@@ -18,14 +19,15 @@ class LoadScreen extends Component {
   render() {
     const { signOut, navigation: { navigate } } = this.props;
     return(
-      <View>
+      <List>
         <Header />
         <Wrapper>
-          <Button onPress={() => navigate('Today')}>NOVO REGISTRO</Button>
+          <Text title>ÚLTIMOS 30 DIAS</Text>
           <Table />
-          <Button onPress={signOut}>LOGOUT</Button>
+          <Button onPress={() => navigate('Today')}>NOVO REGISTRO</Button>
+          {/* <Button onPress={signOut}>LOGOUT</Button> */}
         </Wrapper>
-      </View>
+      </List>
     );
   }
 }
