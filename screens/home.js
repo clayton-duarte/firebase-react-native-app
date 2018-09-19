@@ -1,9 +1,11 @@
 import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import Table from '../components/registryTable';
 import { insertNewRegistry } from '../actions';
+import Progress from '../components/progress';
 import Wrapper from '../components/wrapper';
 import Button from '../components/button';
 import Header from '../components/header';
@@ -28,12 +30,19 @@ class Today extends Component {
     return(
       <View>
         <Header />
-        <Clock onPress={this.newRegistry}></Clock>
-        <Wrapper>
-          <Text title>ÚLTIMOS REGISTROS</Text>
-          <Table depth={1} />
-          <Button onPress={() => navigate('Registry')}>MEUS REGISTROS</Button>
-        </Wrapper>
+        <View inset>
+          <Wrapper>
+            <Text title>JORNADA DE HOJE</Text>
+            <Text label center>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Text>
+            <Progress size={45} />
+          </Wrapper>
+          <Clock onPress={this.newRegistry}></Clock>
+          <Wrapper>
+            <Text title>ÚLTIMOS REGISTROS</Text>
+            <Table depth={1} />
+            <Button onPress={() => navigate('Registry')}>MEUS REGISTROS</Button>
+          </Wrapper>
+        </View>
       </View>
     );
   }

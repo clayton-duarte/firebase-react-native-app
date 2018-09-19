@@ -51,7 +51,7 @@ export default class Clock extends Component {
   render() {
     return (
       <Touch {...this.props}>
-        <Date>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Date>
+        {/* <Date>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Date> */}
         <Time>{moment().format(`h:mm:ss a`)}</Time>
         <Text>MARCAR NOVO REGISTRO</Text>
       </Touch>
