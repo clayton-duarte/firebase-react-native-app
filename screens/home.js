@@ -9,6 +9,7 @@ import Button from '../components/button';
 import Header from '../components/header';
 import Clock from '../components/clock';
 import View from '../components/view';
+import Text from '../components/text';
 
 
 class Today extends Component {
@@ -29,6 +30,7 @@ class Today extends Component {
         <Header />
         <Clock onPress={this.newRegistry}></Clock>
         <Wrapper>
+          <Text label>ÚLTIMOS REGISTROS</Text>
           <Table depth={1} />
           <Button onPress={() => navigate('Registry')}>MEUS REGISTROS</Button>
         </Wrapper>

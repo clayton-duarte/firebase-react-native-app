@@ -19,7 +19,7 @@ const Table = ({ registry: { days, history }, depth }) => (
   days.map((day, index) => (
     (index < depth)
     ? (
-      <Col>
+      <Col key={`registry-list-${depth}-${index}`}>
         <Row>
           <Day date>{renderDay(day)}</Day>
         </Row>

@@ -5,9 +5,9 @@ import moment from 'moment';
 const Touch = styled.TouchableOpacity`
 background-color: ${({ theme }) => theme.action};
 ${({ theme }) => theme.shadow};
-border-radius: 16px;
+border-radius: 4px;
 margin: 4px auto;
-padding: 16px;
+padding: 12px;
 `;
 
 const Time = styled.Text`

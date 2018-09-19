@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
 
 export default styled.View`
-padding: 16px;
+padding: 12px;
 `;

@@ -8,8 +8,8 @@ ${({ theme }) => theme.shadow};
 font-family: sans-serif;
 letter-spacing: 0.5px;
 border-radius: 4px;
-padding: 8px 16px;
 font-size: 16px;
+padding: 12px;
 margin: 4px;
 `;
 

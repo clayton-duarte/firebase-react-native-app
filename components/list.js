@@ -5,7 +5,7 @@ const ListView = styled.ScrollView`
 background-color: ${({ theme }) => theme.bg_secondary};
 border-top-width: ${Constants.statusBarHeight};
 border-color: ${({ theme }) => theme.primary};
-padding-bottom: 16px;
+padding-bottom: 12px;
 `;
 
 ListView.defaultProps = {

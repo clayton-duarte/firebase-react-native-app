@@ -1,11 +1,13 @@
 import { createStackNavigator, createDrawerNavigator } from 'react-navigation';
 import { bindActionCreators } from 'redux';
+import { Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { verifyAuthentication } from '../actions';
 import Loader from '../components/loader';
 import RegistryScreen from './registry';
+import Menu from '../components/menu';
 import View from '../components/view';
 import LoginScreen from './login';
 import HomeScreen from './home';
@@ -37,6 +39,8 @@ const Logged = createDrawerNavigator({
     }
   },
 },{
+  drawerWidth: () => (Dimensions.get('window').width - 50),
+  contentComponent: props => <Menu {...props} />,
   initialRouteName: 'Today',
   navigationOptions: {
     headerStyle: {

@@ -1,21 +1,14 @@
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
 import { Icon, Button } from 'native-base';
-import { connect } from 'react-redux';
 import React from 'react';
 
+import Text from './text';
 import Row from './row';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.action};
 font-size: 20px;
-`;
-
-const Text = styled.Text`
-color: ${({ theme }) => theme.secondary};
-letter-spacing: 2px;
-font-weight: bold;
-font-size: 16px;
 `;
 
 const StyledRow = styled(Row)`
@@ -25,16 +18,16 @@ ${({ theme }) => theme.shadow};
 border-right-width: 0;
 `;
 
-const Header = ({ navigation: { navigate, openDrawer }, auth: { user: { displayName } } }) => (
+const Header = ({ navigation: { navigate, openDrawer }}) => (
   <StyledRow>
-    <Button transparent onPress={() => openDrawer() }>
+    <Button transparent onPress={openDrawer}>
       <StyledIcon name='menu' />
     </Button>
-    <Text>OLÁ {displayName.toUpperCase()}</Text>
+    <Text label>MEU PONTO VIRTUAL</Text>
     <Button transparent onPress={() => navigate('Profile')}>
       <StyledIcon name='person' />
     </Button>
   </StyledRow>
 );
 
-export default connect(state => state)(withNavigation(Header));
+export default (withNavigation(Header));
