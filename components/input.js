@@ -42,14 +42,14 @@ font-size: 16px;
 const openTimePicker = async (onChangeText, value) => {
   const initialHour = Number(moment(value, 'H:mm:ss').format('H'));
   const initialMinute = Number(moment(value, 'H:mm:ss').format('mm'));
-  const { action, hour, minute } = await TimePickerAndroid.open({ hour: initialHour, minute: initialMinute, is24Hour: true });
+  const { action, hour, minute } = await TimePickerAndroid.open({ hour: initialHour, minute: initialMinute, is24Hour: false });
   if (action !== TimePickerAndroid.dismissedAction) {
     return onChangeText(moment(`${hour}:${minute}:00`, 'H:mm:ss').format('H:mm:ss'));
   }
 }
 
-const Picker = ({ onChangeText, value }) => (
-  <Touch onPress={() => openTimePicker(onChangeText, value)}>
+const Picker = ({ onChangeText, value, ...rest }) => (
+  <Touch onPress={() => openTimePicker(onChangeText, value)} {...rest}>
     <Text isPlaceholder={value}>{value}</Text>
   </Touch>
 );

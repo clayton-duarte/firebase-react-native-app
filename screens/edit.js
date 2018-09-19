@@ -3,8 +3,9 @@ import styled from 'styled-components/native';
 import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
-import { editDay } from '../actions';
+import { editDay, insertNewRegistry } from '../actions';
 import Wrapper from '../components/wrapper';
 import Button from '../components/button';
 import Header from '../components/header';
@@ -12,10 +13,21 @@ import Loader from '../components/loader';
 import Input from '../components/input';
 import Text from '../components/text';
 import View from '../components/view';
+import Row from '../components/row';
+
+const StyledRow = styled(Row)`
+width: 100%;
+`;
+
+const StyledInput = styled(Input)`
+flex: 1;
+`;
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.warn};
-font-size: 12px;
+${({ theme }) => theme.text_shadow};
+margin: 12px 4px 4px 12px;
+font-size: 24px;
 `;
 
 class EditScreen extends Component {
@@ -23,8 +35,7 @@ class EditScreen extends Component {
     super(props);
     this.state = {};
     this.handleSubmit = () => {
-      const { day, registry } = this.state;
-      this.props.editDay({ day, registry });
+      // ALL THINGS ARE SAVED ON CHANGE
       this.props.navigation.navigate('Registry');
     };
     this.setCurrentDay = () => {
@@ -34,15 +45,23 @@ class EditScreen extends Component {
       this.setState({ registry, day });
     };
     this.updateDayRegistry = (value, index) => {
-      const { registry } = this.state;
+      const { day, registry } = this.state;
       registry[index] = value;
+      this.props.editDay({ day, registry });
       this.setState({ registry });
     };
     this.removeRegistry = (index) => {
-      const { registry } = this.state;
+      const { day, registry } = this.state;
       registry.splice(index, 1);
+      this.props.editDay({ day, registry });
       this.setState({ registry });
-    }
+    };
+    this.newRegistry = () => {
+      const { day, registry } = this.state;
+      registry[registry.length] = moment().format('H:mm:ss');
+      this.props.editDay({ day, registry });
+      this.setState({ registry });
+    };
     this.setLabel = (index) => {
       switch (index) {
         case 0:
@@ -72,12 +91,17 @@ class EditScreen extends Component {
         {
           registry.map((hour, index) => (
             <Wrapper key={`edit-registry-${hour}-${index}`}>
-              <Text label>{this.setLabel(index)} EXCLUIR!!!</Text>
-              <Input
-                type='time'
-                value={registry[index]}
-                onChangeText={value => this.updateDayRegistry(value, index)}
-              />
+              <Text label>{this.setLabel(index)}</Text>
+              <StyledRow>
+                <StyledInput
+                  type='time'
+                  value={moment(registry[index], 'H:mm:ss').format('h:mm a')}
+                  onChangeText={value => this.updateDayRegistry(value, index)}
+                />
+                <NbButton transparent onPress={() => this.removeRegistry(index)}>
+                  <StyledIcon name='close-circle' />
+                </NbButton>
+              </StyledRow>
             </Wrapper>
           ))
         }
@@ -86,7 +110,7 @@ class EditScreen extends Component {
           registry.length < 4
           ? (
             <Wrapper>
-              <Button secondary disabled={this.state.loading} onPress={this.handleSubmit}>ADICIONAR REGISTRO</Button>
+              <Button secondary disabled={this.state.loading} onPress={this.newRegistry}>ADICIONAR REGISTRO</Button>
             </Wrapper>
           ) : null
         }
@@ -98,5 +122,5 @@ class EditScreen extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ editDay }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ editDay, insertNewRegistry }, dispatch);
 export default connect(state => state, mapDispatchToProps)(EditScreen);
