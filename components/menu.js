@@ -18,19 +18,21 @@ border-right-width: 0;
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.action};
+${({ theme }) => theme.text_shadow};
 font-size: 20px;
 `;
 
 const Item = styled.TouchableOpacity`
 background-color: ${({ active, theme }) => active ? theme.secondary : theme.bg_primary};
+${({ theme }) => theme.shadow};
 flex-direction: row;
 align-items: center;
 padding: 12px;
-margin: 1px 0;
 `;
 
 const ItemText = styled.Text`
 color: ${({ active, theme }) => active ? theme.bg_primary : theme.action};
+${({ theme }) => theme.text_shadow};
 letter-spacing: 2px;
 font-weight: bold;
 font-size: 12px;

@@ -9,6 +9,7 @@ import Row from './row';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.action};
+${({ theme }) => theme.text_shadow};
 font-size: 20px;
 `;
 

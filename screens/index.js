@@ -18,7 +18,7 @@ import EditScreen from './edit';
 const Logged = createDrawerNavigator({
   Today: HomeScreen,
   Registry: RegistryScreen,
-  History: HomeScreen,
+  History: RegistryScreen,
   Profile: ProfileScreen,
   Edit: EditScreen,
 },{
