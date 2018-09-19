@@ -1,4 +1,6 @@
+import styled from 'styled-components/native';
 import { connect } from 'react-redux';
+import { Icon } from 'native-base';
 import moment from 'moment';
 import React from 'react';
 
@@ -8,12 +10,19 @@ import Day from './day';
 import Row from './row';
 import Col from './col';
 
+const StyledIcon = styled(Icon)`
+color: ${({ theme, total }) => total ? theme.action : theme.secondary};
+font-size: 12px;
+`;
+
 const renderDay = date => {
   const day = moment(date, 'YYYYMMDD').format('dddd DD/MM/YYYY');
   const today = moment().format('dddd DD/MM/YYYY');
   if(day === today) return 'HOJE';
   return day;
 };
+
+const changeIcon = index => ((index % 2) ? 'arrow-dropup' : 'arrow-dropdown');
 
 const Table = ({ registry: { days, history }, depth }) => (
   days.map((day, index) => (
@@ -25,9 +34,9 @@ const Table = ({ registry: { days, history }, depth }) => (
         </Row>
         <Row>
           {history[day].map((hour, index) => (
-            <Hour index={index}>{moment(hour, 'H:mm:ss').format('H:mm')}</Hour>
+            <Hour index={index}><StyledIcon name={changeIcon(index)}/>{moment(hour, 'H:mm:ss').format('H:mm')}</Hour>
           ))}
-          <Hour total>{calcDuration(history[day])}</Hour>
+          <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>
         </Row>
       </Col>
     ) : null

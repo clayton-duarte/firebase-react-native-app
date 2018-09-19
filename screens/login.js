@@ -37,7 +37,7 @@ class LoadScreen extends Component {
   render() {
     return(
       <View>
-        <Wrapper><StyledIcon name='clock' /></Wrapper>
+        <Wrapper><StyledIcon name='timer' /></Wrapper>
         <Wrapper>
           <Text label>EMAIL:</Text>
           <Input
