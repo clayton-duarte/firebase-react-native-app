@@ -11,39 +11,21 @@ import Menu from '../components/menu';
 import View from '../components/view';
 import LoginScreen from './login';
 import HomeScreen from './home';
+import EditScreen from './edit';
 
 // ROUTERS
 const Logged = createDrawerNavigator({
-  Today: {
-    screen: HomeScreen,
-    navigationOptions: {
-      title: 'Hoje',
-    }
-  },
-  Registry: {
-    screen: RegistryScreen,
-    navigationOptions: {
-      title: 'Registros',
-    }
-  },
-  History: {
-    screen: HomeScreen,
-    navigationOptions: {
-      title: 'Fechamentos',
-    }
-  },
-  Profile: {
-    screen: HomeScreen,
-    navigationOptions: {
-      title: 'Meu Perfil',
-    }
-  },
+  Today: HomeScreen,
+  Registry: RegistryScreen,
+  History: HomeScreen,
+  Profile: HomeScreen,
+  Edit: EditScreen,
 },{
   drawerWidth: () => (Dimensions.get('window').width - 50),
   contentComponent: props => <Menu {...props} />,
   initialRouteName: 'Today',
   navigationOptions: {
-    headerStyle: {
+    header: {
       display: 'none',
     }
   }

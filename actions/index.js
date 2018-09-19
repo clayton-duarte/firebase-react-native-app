@@ -93,13 +93,25 @@ export const updateProfile = params => async dispatch => {
 };
 
 // REGISTRY
+export const makeRegistry = params => async dispatch => {
+  // SETUP
+  const { day, index, hour } = params;
+  const { uid } = Auth.currentUser;
+  // REQUEST
+  Database.ref(`${uid}/${day}/${index}`).set(hour)
+    .then(() => {
+      dispatch(getPreviousRegistry());
+    })
+    .catch(error => console.log(error));
+  dispatch(getPreviousRegistry());
+};
+
 export const insertNewRegistry = params => async dispatch => {
   // SETUP
-  const { registry: { history, ...rest }, time } = params;
-  const { uid } = Auth.currentUser;
+  const { registry: { history } } = params;
   // PREPARE DATA
-  const day = moment(time).format('YYYYMMDD');
-  const hour = moment(time).format('H:mm:ss');
+  const day = moment().format('YYYYMMDD');
+  const hour = moment().format('H:mm:ss');
   if (!history[day]) history[day] = [];
   const index = history[day].length;
   if (index > 3) return Alert.alert(
@@ -111,7 +123,16 @@ export const insertNewRegistry = params => async dispatch => {
     ]
   )
   // REQUEST
-  Database.ref(`${uid}/${day}/${index}`).set(hour)
+  dispatch(makeRegistry({ day, hour, index }));
+};
+
+export const editDay = params => async dispatch => {
+  // SETUP
+  const { day, registry } = params;
+  const { uid } = Auth.currentUser;
+  const registryArray = Object.values(registry);
+  // REQUEST
+  Database.ref(`${uid}/${day}`).set(registryArray)
     .then(() => {
       dispatch(getPreviousRegistry());
     })

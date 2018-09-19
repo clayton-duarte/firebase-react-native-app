@@ -1,3 +1,4 @@
+import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
@@ -24,11 +25,13 @@ const renderDay = date => {
 
 const changeIcon = index => ((index % 2) ? 'arrow-dropup' : 'arrow-dropdown');
 
-const Table = ({ registry: { days, history }, depth }) => (
+const Table = ({
+  registry: { days, history }, navigation: { navigate }, depth,
+}) => (
   days.map((day, index) => (
     (index < depth)
     ? (
-      <Col key={`registry-list-${depth}-${index}`}>
+      <Col key={`registry-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
         <Row>
           <Day date>{renderDay(day)}</Day>
         </Row>
@@ -47,4 +50,4 @@ Table.defaultProps = {
   depth: 31,
 }
 
-export default connect(state => state)(Table);
+export default connect(state => state)(withNavigation(Table));
