@@ -11,6 +11,7 @@ import Button from '../components/button';
 import Input from '../components/input';
 import Text from '../components/text';
 import View from '../components/view';
+import Logo from '../components/logo';
 
 const { width } = Dimensions.get('window');
 
@@ -60,12 +61,9 @@ class LoadScreen extends Component {
   render() {
     return(
       <View>
+        <Wrapper />
         <Wrapper>
-          <Row>
-            <StyledIcon1 name='timer' />
-            <StyledIcon2 name='timer' />
-            <StyledIcon3 name='timer' />
-          </Row>
+          <Logo size={100}/>
         </Wrapper>
         <Wrapper>
           <Text label>EMAIL:</Text>

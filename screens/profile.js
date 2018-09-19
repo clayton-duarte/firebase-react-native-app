@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { updateProfile } from '../actions';
+import { updateProfile, signOut } from '../actions';
 import Wrapper from '../components/wrapper';
 import Button from '../components/button';
 import Header from '../components/header';
@@ -38,7 +38,7 @@ class EditScreen extends Component {
       <View>
         <Header />
         <Wrapper>
-          <Text label>NOME</Text>
+          <Text label>NOME:</Text>
           <Input
             placeholder=''
             value={displayName}
@@ -54,5 +54,5 @@ class EditScreen extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ updateProfile }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ updateProfile, signOut }, dispatch);
 export default connect(state => state, mapDispatchToProps)(EditScreen);
