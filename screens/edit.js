@@ -1,3 +1,5 @@
+import { Icon, Button as NbButton } from 'native-base';
+import styled from 'styled-components/native';
 import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -10,6 +12,11 @@ import Loader from '../components/loader';
 import Input from '../components/input';
 import Text from '../components/text';
 import View from '../components/view';
+
+const StyledIcon = styled(Icon)`
+color: ${({ theme }) => theme.warn};
+font-size: 12px;
+`;
 
 class EditScreen extends Component {
   constructor(props) {
@@ -31,7 +38,12 @@ class EditScreen extends Component {
       registry[index] = value;
       this.setState({ registry });
     };
-    this.setLabel = index => {
+    this.removeRegistry = (index) => {
+      const { registry } = this.state;
+      registry.splice(index, 1);
+      this.setState({ registry });
+    }
+    this.setLabel = (index) => {
       switch (index) {
         case 0:
           return 'ENTRADA 1';
@@ -60,10 +72,9 @@ class EditScreen extends Component {
         {
           registry.map((hour, index) => (
             <Wrapper key={`edit-registry-${hour}-${index}`}>
-              <Text label>{this.setLabel(index)}</Text>
+              <Text label>{this.setLabel(index)} EXCLUIR!!!</Text>
               <Input
                 type='time'
-                placeholder='00:00'
                 value={registry[index]}
                 onChangeText={value => this.updateDayRegistry(value, index)}
               />

@@ -31,13 +31,15 @@ const Table = ({
   days.map((day, index) => (
     (index < depth)
     ? (
-      <Col key={`registry-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
+      <Col key={`registry-day-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
         <Row>
           <Day date>{renderDay(day)}</Day>
         </Row>
         <Row>
           {history[day].map((hour, index) => (
-            <Hour index={index}><StyledIcon name={changeIcon(index)}/>{moment(hour, 'H:mm:ss').format('H:mm')}</Hour>
+            <Hour key={`registry-hour-list-${depth}-${index}`} index={index}>
+              <StyledIcon name={changeIcon(index)}/>{moment(hour, 'H:mm:ss').format('H:mm')}
+            </Hour>
           ))}
           <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>
         </Row>

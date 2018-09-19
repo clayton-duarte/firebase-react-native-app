@@ -9,6 +9,7 @@ import Loader from '../components/loader';
 import RegistryScreen from './registry';
 import Menu from '../components/menu';
 import View from '../components/view';
+import ProfileScreen from './profile';
 import LoginScreen from './login';
 import HomeScreen from './home';
 import EditScreen from './edit';
@@ -18,7 +19,7 @@ const Logged = createDrawerNavigator({
   Today: HomeScreen,
   Registry: RegistryScreen,
   History: HomeScreen,
-  Profile: HomeScreen,
+  Profile: ProfileScreen,
   Edit: EditScreen,
 },{
   drawerWidth: () => (Dimensions.get('window').width - 50),

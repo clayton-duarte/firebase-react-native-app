@@ -7,6 +7,7 @@ import moment from 'moment';
 // INSTANCES
 const Database = Firebase.database();
 const Auth = Firebase.auth();
+Auth.languageCode = 'pt-BR';
 
 // AUTH
 export const signInWithEmailAndPassword = params => async dispatch => {
@@ -26,8 +27,6 @@ export const signInWithEmailAndPassword = params => async dispatch => {
     })
     .catch(error => console.log(error));
 };
-
-verifyAuthentication
 
 export const verifyAuthentication = callback => async dispatch => {
   // REQUEST
@@ -65,7 +64,6 @@ export const createUserWithEmailAndPassword = params => async dispatch => {
 };
 
 export const signOut = () => async dispatch => {
-  // SETUP
   // REQUEST
   Auth.signOut()
     .then(() => {
@@ -77,11 +75,18 @@ export const signOut = () => async dispatch => {
 };
 
 export const updateProfile = params => async dispatch => {
-  // SETUP
+  // POSSIBLE FIELDS
+  // displayName (OK!)
+  // email (use updateEmail)
+  // phoneNumber (do not edit)
+  // photoURL (OK!)
+  // providerId (do not edit)
+  // uid (do not edit)
   // REQUEST
   Auth.currentUser.updateProfile(params)
-    .then(response => {
-      const user = response;
+    .then(() => {
+      const user = Auth.currentUser;
+      console.log('USER:', user)
       dispatch({
         type: LOG_IN,
         payload: {
