@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { bindActionCreators } from 'redux';
+import { Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
@@ -11,12 +12,34 @@ import Input from '../components/input';
 import Text from '../components/text';
 import View from '../components/view';
 
-const StyledIcon = styled(Icon)`
-color: ${({ theme }) => theme.action};
-${({ theme }) => theme.text_shadow};
-margin: 50px auto -50px auto;
+const { width } = Dimensions.get('window');
+
+const StyledIcon1 = styled(Icon)`
+color: ${({ theme }) => theme.primary};
+left: ${(width / 2 ) - 45};
+/* color: rgba(0, 0, 0, .1); */
+position: absolute;
 align-self: center;
 font-size: 100px;
+top: 55;
+`;
+
+const StyledIcon2 = styled(StyledIcon1)`
+color: ${({ theme }) => theme.secondary};
+left: ${(width / 2 ) - 50};
+top: 50px;
+`;
+
+const StyledIcon3 = styled(StyledIcon1)`
+color: ${({ theme }) => theme.action};
+left: ${(width / 2 ) - 55};
+top: 45px;
+`;
+
+const Row = styled.TouchableOpacity`
+flex-direction: row;
+position: relative;
+height: 150px;
 `;
 
 class LoadScreen extends Component {
@@ -37,7 +60,13 @@ class LoadScreen extends Component {
   render() {
     return(
       <View>
-        <Wrapper><StyledIcon name='timer' /></Wrapper>
+        <Wrapper>
+          <Row>
+            <StyledIcon1 name='timer' />
+            <StyledIcon2 name='timer' />
+            <StyledIcon3 name='timer' />
+          </Row>
+        </Wrapper>
         <Wrapper>
           <Text label>EMAIL:</Text>
           <Input
