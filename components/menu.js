@@ -53,7 +53,7 @@ const Menu = ({
         <Button transparent onPress={closeDrawer}>
           <StyledIcon name='menu' />
         </Button>
-        <Text label>OLÁ {displayName.toUpperCase()}</Text>
+        <Text label>OLÁ {displayName ? displayName.toUpperCase() : null}</Text>
         <Wrapper/>
       </StyledRow>
       <MenuItem onPress={() => navigate('Today')} active={(index === 0)}>hoje</MenuItem>

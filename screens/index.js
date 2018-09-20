@@ -5,14 +5,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { verifyAuthentication } from '../actions';
+import RegisterScreen from './unlogged/register';
+import RegistryScreen from './logged/registry';
+import ProfileScreen from './logged/profile';
+import LoginScreen from './unlogged/login';
 import Loader from '../components/loader';
-import RegistryScreen from './registry';
+import HomeScreen from './logged/home';
+import EditScreen from './logged/edit';
 import Menu from '../components/menu';
 import View from '../components/view';
-import ProfileScreen from './profile';
-import LoginScreen from './login';
-import HomeScreen from './home';
-import EditScreen from './edit';
 
 // ROUTERS
 const Logged = createDrawerNavigator({
@@ -33,6 +34,7 @@ const Logged = createDrawerNavigator({
 });
 
 const Unlogged = createStackNavigator({
+  Register: RegisterScreen,
   Login: LoginScreen,
 },{
   initialRouteName: 'Login',

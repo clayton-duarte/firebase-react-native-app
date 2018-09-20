@@ -2,19 +2,21 @@ import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { updateProfile, signOut } from '../actions';
-import Wrapper from '../components/wrapper';
-import Button from '../components/button';
-import Header from '../components/header';
-import Loader from '../components/loader';
-import Input from '../components/input';
-import Text from '../components/text';
-import View from '../components/view';
+import { updateProfile, signOut } from '../../actions';
+import Wrapper from '../../components/wrapper';
+import Button from '../../components/button';
+import Header from '../../components/header';
+import Loader from '../../components/loader';
+import Input from '../../components/input';
+import Text from '../../components/text';
+import View from '../../components/view';
 
 class EditScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      loading: true,
+    };
     this.handleSubmit = () => {
       const { displayName } = this.state;
       this.props.updateProfile({ displayName });
@@ -22,7 +24,7 @@ class EditScreen extends Component {
     };
     this.setCurrentUserData = () => {
       const { displayName } = this.props.auth.user;
-      this.setState({ displayName });
+      this.setState({ displayName, loading: false });
     }
   }
    
@@ -31,9 +33,9 @@ class EditScreen extends Component {
   }
 
   render() {
-    const { displayName } = this.state;
+    const { displayName, loading } = this.state;
     const { signOut } = this.props;
-    if (!displayName) return <View><Loader /></View>
+    if (loading) return <View><Loader /></View>
     return(
       <View>
         <Header />

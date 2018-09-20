@@ -1,8 +1,9 @@
 import { Alert } from 'react-native';
+import moment from 'moment';
 
 import { LOG_IN, LOG_OUT, REGISTRY } from './types';
 import Firebase from '../firebase.config';
-import moment from 'moment';
+import { calcDuration } from '../utils';
 
 // INSTANCES
 const Database = Firebase.database();
@@ -32,7 +33,7 @@ export const verifyAuthentication = callback => async dispatch => {
   // REQUEST
   Auth.onAuthStateChanged(async (user) => {
     if (user) {
-      dispatch(getPreviousRegistry());
+      await dispatch(getPreviousRegistry());
       dispatch({
         type: LOG_IN,
         payload: {
@@ -50,15 +51,11 @@ export const verifyAuthentication = callback => async dispatch => {
 
 export const createUserWithEmailAndPassword = params => async dispatch => {
   // SETUP
-  const { email, password } = params;
+  const { email, password, displayName } = params;
   // REQUEST
   Auth.createUserWithEmailAndPassword(email, password)
-    .then(response => {
-      alert(JSON.stringify(response))
-      dispatch({
-        type: LOG_IN,
-        payload: response,
-      });
+    .then(() => {
+      dispatch(updateProfile({ displayName }));
     })
     .catch(error => console.log(error));
 };
@@ -156,9 +153,11 @@ export const getPreviousRegistry = () => async dispatch => {
       const days = Object.keys(history);
       hours.reverse();
       days.reverse();
+      const todayDuration = calcDuration(history[days[0]]);
       dispatch({
         type: REGISTRY,
         payload: {
+          todayDuration,
           history,
           hours,
           days,

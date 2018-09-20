@@ -2,13 +2,13 @@ import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { signOut, insertNewRegistry } from '../actions';
-import Table from '../components/registryTable';
-import Wrapper from '../components/wrapper';
-import Header from '../components/header';
-import Button from '../components/button';
-import List from '../components/list';
-import Text from '../components/text';
+import { signOut, insertNewRegistry } from '../../actions';
+import Table from '../../components/registryTable';
+import Wrapper from '../../components/wrapper';
+import Header from '../../components/header';
+import Button from '../../components/button';
+import List from '../../components/list';
+import Text from '../../components/text';
 
 class LoadScreen extends Component {
   constructor(props) {

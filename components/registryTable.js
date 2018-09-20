@@ -23,7 +23,7 @@ const renderDay = date => {
   return day;
 };
 
-const changeIcon = index => ((index % 2) ? 'arrow-dropup' : 'arrow-dropdown');
+const changeIcon = index => ((index % 2) ? 'log-out' : 'log-in');
 
 const Table = ({
   registry: { days, history }, navigation: { navigate }, depth,
@@ -37,8 +37,9 @@ const Table = ({
         </Row>
         <Row>
           {history[day].map((hour, index) => (
-            <Hour key={`registry-hour-list-${depth}-${index}`} index={index}>
-              <StyledIcon name={changeIcon(index)}/>{moment(hour, 'H:mm:ss').format('H:mm')}
+            <Hour key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
+              <StyledIcon name={changeIcon(index)} />
+              {moment(hour, 'H:mm:ss').format('H:mm')}
             </Hour>
           ))}
           <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>

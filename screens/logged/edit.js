@@ -5,15 +5,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { editDay, insertNewRegistry } from '../actions';
-import Wrapper from '../components/wrapper';
-import Button from '../components/button';
-import Header from '../components/header';
-import Loader from '../components/loader';
-import Input from '../components/input';
-import Text from '../components/text';
-import View from '../components/view';
-import Row from '../components/row';
+import { editDay, insertNewRegistry } from '../../actions';
+import Wrapper from '../../components/wrapper';
+import Button from '../../components/button';
+import Header from '../../components/header';
+import Loader from '../../components/loader';
+import Input from '../../components/input';
+import Text from '../../components/text';
+import View from '../../components/view';
+import Row from '../../components/row';
 
 const StyledRow = styled(Row)`
 width: 100%;

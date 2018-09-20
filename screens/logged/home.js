@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import Table from '../components/registryTable';
-import { insertNewRegistry } from '../actions';
-import Progress from '../components/progress';
-import Wrapper from '../components/wrapper';
-import Button from '../components/button';
-import Header from '../components/header';
-import Clock from '../components/clock';
-import View from '../components/view';
-import Text from '../components/text';
+import Table from '../../components/registryTable';
+import { insertNewRegistry } from '../../actions';
+import Progress from '../../components/progress';
+import Wrapper from '../../components/wrapper';
+import Button from '../../components/button';
+import Header from '../../components/header';
+import Clock from '../../components/clock';
+import View from '../../components/view';
+import Text from '../../components/text';
 
 
 class Today extends Component {
@@ -23,6 +23,10 @@ class Today extends Component {
       const time = new Date();
       this.props.insertNewRegistry({ registry, time })
     };
+    this.calcTodayProgress = () => {
+      const { todayDuration } = this.props.registry;
+      return (Number(todayDuration.replace(',', '.')) * 100 / 8);
+    }
   }
 
   render() {
@@ -34,7 +38,7 @@ class Today extends Component {
           <Wrapper>
             <Text title>JORNADA DE HOJE</Text>
             <Text label center>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Text>
-            <Progress size={45} />
+            <Progress size={this.calcTodayProgress()} />
           </Wrapper>
           <Clock onPress={this.newRegistry}></Clock>
           <Wrapper>
