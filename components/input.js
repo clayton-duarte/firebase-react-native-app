@@ -48,6 +48,7 @@ const openTimePicker = async (onChangeText, value, day) => {
     const timestamp = moment(format).format('x');
     return onChangeText(timestamp);
   }
+  return;
 }
 
 const Picker = ({ onChangeText, value, day, ...rest }) => (

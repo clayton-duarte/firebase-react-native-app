@@ -46,11 +46,11 @@ class EditScreen extends Component {
       this.setState({ registry, day });
     };
     this.updateDayRegistry = async (timestamp, index) => {
-      const position = await getPosition();
-      position.timestamp = Number(timestamp);
       const { day, registry } = this.state;
+      const position = {
+        timestamp: Number(timestamp),
+      };
       registry[index] = position;
-      console.log(registry[index])
       this.props.editDay({ day, registry });
       this.setState({ registry });
     };
@@ -111,16 +111,14 @@ class EditScreen extends Component {
             </Wrapper>
           ))
         }
-        {/* ADD MORE BUTTON */}
-        {
-          registry.length < 4
-          ? (
-            <Wrapper>
+        <Wrapper>
+          {/* ADD MORE BUTTON */}
+          {
+            registry.length < 4
+            ? (
               <Button secondary disabled={this.state.loading} onPress={this.newRegistry}>ADICIONAR REGISTRO</Button>
-            </Wrapper>
-          ) : null
-        }
-        <Wrapper>          
+            ) : null
+          }         
           <Button disabled={this.state.loading} onPress={this.handleSubmit}>CONCLUIR</Button>
         </Wrapper>
       </View>

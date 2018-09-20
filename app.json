@@ -21,6 +21,9 @@
         "xml"
       ]
     },
+    "android": {
+      "package": "br.meu.ponto.virtual"
+    },
     "ios": {
       "supportsTablet": true
     }
