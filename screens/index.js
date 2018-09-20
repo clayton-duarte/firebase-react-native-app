@@ -16,21 +16,27 @@ import Menu from '../components/menu';
 import View from '../components/view';
 
 // ROUTERS
-const Logged = createDrawerNavigator({
-  Today: HomeScreen,
+const StackNavigator = createStackNavigator({
   Registry: RegistryScreen,
   History: RegistryScreen,
   Profile: ProfileScreen,
+  Today: HomeScreen,
   Edit: EditScreen,
 },{
-  drawerWidth: () => (Dimensions.get('window').width - 50),
-  contentComponent: props => <Menu {...props} />,
   initialRouteName: 'Today',
   navigationOptions: {
-    header: {
+    headerStyle: {
       display: 'none',
     }
   }
+});
+
+const Logged = createDrawerNavigator({
+  Navigator: StackNavigator,
+},{
+  drawerWidth: () => (Dimensions.get('window').width - 50),
+  contentComponent: props => <Menu {...props} />,
+  initialRouteName: 'Navigator',
 });
 
 const Unlogged = createStackNavigator({
