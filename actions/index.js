@@ -1,9 +1,9 @@
 import { Alert } from 'react-native';
 import moment from 'moment';
 
+import { calcDuration, getPosition } from '../utils';
 import { LOG_IN, LOG_OUT, REGISTRY } from './types';
 import Firebase from '../firebase.config';
-import { calcDuration } from '../utils';
 
 // INSTANCES
 const Database = Firebase.database();
@@ -97,10 +97,10 @@ export const updateProfile = params => async dispatch => {
 // REGISTRY
 export const makeRegistry = params => async dispatch => {
   // SETUP
-  const { day, index, hour } = params;
+  const { day, index, position } = params;
   const { uid } = Auth.currentUser;
   // REQUEST
-  Database.ref(`${uid}/${day}/${index}`).set(hour)
+  Database.ref(`${uid}/${day}/${index}`).set(position)
     .then(() => {
       dispatch(getPreviousRegistry());
     })
@@ -111,9 +111,10 @@ export const makeRegistry = params => async dispatch => {
 export const insertNewRegistry = params => async dispatch => {
   // SETUP
   const { registry: { history } } = params;
+  const position = await getPosition();
+  if (!position) return alert('Precisamos da permissão de localização para poder registrar a hora com maior precisão. Por favor, permita o acesso para podermos continuar.')
   // PREPARE DATA
-  const day = moment().format('YYYYMMDD');
-  const hour = moment().format('H:mm:ss');
+  const day = moment(position.timestamp).format('YYYYMMDD');
   if (!history[day]) history[day] = [];
   const index = history[day].length;
   if (index > 3) return Alert.alert(
@@ -125,7 +126,7 @@ export const insertNewRegistry = params => async dispatch => {
     ]
   )
   // REQUEST
-  dispatch(makeRegistry({ day, hour, index }));
+  dispatch(makeRegistry({ day, index, position }));
 };
 
 export const editDay = params => async dispatch => {

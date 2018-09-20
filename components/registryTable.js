@@ -12,7 +12,7 @@ import Row from './row';
 import Col from './col';
 
 const StyledIcon = styled(Icon)`
-color: ${({ theme, total }) => total ? theme.action : theme.secondary};
+color: ${({ theme, total }) => (total ? theme.action : theme.secondary)};
 font-size: 12px;
 `;
 
@@ -36,10 +36,10 @@ const Table = ({
           <Day date>{renderDay(day)}</Day>
         </Row>
         <Row>
-          {history[day].map((hour, index) => (
+          {history[day].map((position, index) => (
             <Hour key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
               <StyledIcon name={changeIcon(index)} />
-              {moment(hour, 'H:mm:ss').format('H:mm')}
+              {moment(position.timestamp).format('H:mm')}
             </Hour>
           ))}
           <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>

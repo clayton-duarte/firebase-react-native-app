@@ -39,17 +39,19 @@ letter-spacing: 0.5px;
 font-size: 16px;
 `;
 
-const openTimePicker = async (onChangeText, value) => {
-  const initialHour = Number(moment(value, 'H:mm:ss').format('H'));
-  const initialMinute = Number(moment(value, 'H:mm:ss').format('mm'));
+const openTimePicker = async (onChangeText, value, day) => {
+  const initialHour = Number(moment(value).format('H'));
+  const initialMinute = Number(moment(value).format('mm'));
   const { action, hour, minute } = await TimePickerAndroid.open({ hour: initialHour, minute: initialMinute, is24Hour: false });
   if (action !== TimePickerAndroid.dismissedAction) {
-    return onChangeText(moment(`${hour}:${minute}:00`, 'H:mm:ss').format('H:mm:ss'));
+    const format = moment(`${day} ${hour}:${minute}`, 'YYYYMMDD H:mm').format();
+    const timestamp = moment(format).format('x');
+    return onChangeText(timestamp);
   }
 }
 
-const Picker = ({ onChangeText, value, ...rest }) => (
-  <Touch onPress={() => openTimePicker(onChangeText, value)} {...rest}>
+const Picker = ({ onChangeText, value, day, ...rest }) => (
+  <Touch onPress={() => openTimePicker(onChangeText, value, day)} {...rest}>
     <Text isPlaceholder={value}>{value}</Text>
   </Touch>
 );

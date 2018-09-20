@@ -5,14 +5,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { editDay, insertNewRegistry } from '../../actions';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Loader from '../../components/loader';
 import Input from '../../components/input';
+import { getPosition } from '../../utils';
 import Text from '../../components/text';
 import View from '../../components/view';
+import { editDay } from '../../actions';
 import Row from '../../components/row';
 
 const StyledRow = styled(Row)`
@@ -44,9 +45,12 @@ class EditScreen extends Component {
       const registry = this.props.registry.history[day];
       this.setState({ registry, day });
     };
-    this.updateDayRegistry = (value, index) => {
+    this.updateDayRegistry = async (timestamp, index) => {
+      const position = await getPosition();
+      position.timestamp = Number(timestamp);
       const { day, registry } = this.state;
-      registry[index] = value;
+      registry[index] = position;
+      console.log(registry[index])
       this.props.editDay({ day, registry });
       this.setState({ registry });
     };
@@ -56,9 +60,10 @@ class EditScreen extends Component {
       this.props.editDay({ day, registry });
       this.setState({ registry });
     };
-    this.newRegistry = () => {
+    this.newRegistry = async () => {
       const { day, registry } = this.state;
-      registry[registry.length] = moment().format('H:mm:ss');
+      const position = await getPosition();
+      registry[registry.length] = position;
       this.props.editDay({ day, registry });
       this.setState({ registry });
     };
@@ -83,7 +88,7 @@ class EditScreen extends Component {
   }
 
   render() {
-    const { registry } = this.state;
+    const { registry, day } = this.state;
     if (!registry) return <View><Loader /></View>
     return(
       <View>
@@ -94,9 +99,10 @@ class EditScreen extends Component {
               <Text label>{this.setLabel(index)}</Text>
               <StyledRow>
                 <StyledInput
+                  day={day}
                   type='time'
-                  value={moment(registry[index], 'H:mm:ss').format('h:mm a')}
-                  onChangeText={value => this.updateDayRegistry(value, index)}
+                  value={moment(registry[index].timestamp).format('h:mm a')}
+                  onChangeText={timestamp => this.updateDayRegistry(timestamp, index)}
                 />
                 <NbButton transparent onPress={() => this.removeRegistry(index)}>
                   <StyledIcon name='close-circle' />
@@ -122,5 +128,5 @@ class EditScreen extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ editDay, insertNewRegistry }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ editDay }, dispatch);
 export default connect(state => state, mapDispatchToProps)(EditScreen);

@@ -1,3 +1,4 @@
+import { Location, Permissions } from 'expo';
 import moment from 'moment';
 
 export const capitalize = name => {
@@ -7,11 +8,12 @@ export const capitalize = name => {
 }
 
 export const calcDuration = dayRegistry => {
+  const timestamps = dayRegistry.map(position => position.timestamp);
   // SETUP DATA
-  const registry1 = moment(dayRegistry[0], 'H:mm:ss');
-  const registry2 = moment(dayRegistry[1], 'H:mm:ss');
-  const registry3 = moment(dayRegistry[2], 'H:mm:ss');
-  const registry4 = moment(dayRegistry[3], 'H:mm:ss');
+  const registry1 = moment(timestamps[0]);
+  const registry2 = moment(timestamps[1]);
+  const registry3 = moment(timestamps[2]);
+  const registry4 = moment(timestamps[3]);
   const diff1 = moment.duration(registry2.diff(registry1));
   const diff2 = moment.duration(registry4.diff(registry3));
   const morning = diff1.asHours();
@@ -28,3 +30,10 @@ export const calcDuration = dayRegistry => {
       return '+0:00';
   }
 }
+
+export const getPosition = async () => {
+  let { status } = await Permissions.askAsync(Permissions.LOCATION);
+  if (status !== 'granted') return false;
+  let location = await Location.getCurrentPositionAsync({});
+  return location;
+};

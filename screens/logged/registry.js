@@ -1,8 +1,5 @@
-import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
-import { signOut, insertNewRegistry } from '../../actions';
 import Table from '../../components/registryTable';
 import Wrapper from '../../components/wrapper';
 import Header from '../../components/header';
@@ -17,7 +14,7 @@ class LoadScreen extends Component {
   }
 
   render() {
-    const { signOut, navigation: { navigate } } = this.props;
+    const { navigation: { navigate } } = this.props;
     return(
       <List>
         <Header />
@@ -25,12 +22,10 @@ class LoadScreen extends Component {
           <Text title>ÚLTIMOS 30 DIAS</Text>
           <Table />
           <Button onPress={() => navigate('Today')}>NOVO REGISTRO</Button>
-          {/* <Button onPress={signOut}>LOGOUT</Button> */}
         </Wrapper>
       </List>
     );
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signOut, insertNewRegistry }, dispatch);
-export default connect(state => state, mapDispatchToProps)(LoadScreen);
+export default LoadScreen;

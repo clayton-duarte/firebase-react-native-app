@@ -20,8 +20,7 @@ class Today extends Component {
     this.state = {};
     this.newRegistry = () => {
       const { registry } = this.props;
-      const time = new Date();
-      this.props.insertNewRegistry({ registry, time })
+      this.props.insertNewRegistry({ registry })
     };
     this.calcTodayProgress = () => {
       const { todayDuration } = this.props.registry;
