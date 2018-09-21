@@ -22,6 +22,11 @@ class Today extends Component {
       const { registry } = this.props;
       this.props.insertNewRegistry({ registry })
     };
+    this.isWorking = () => {
+      const { registry: { history, days } } = this.props;
+      const today = history[days[0]];
+      return (today.length % 2);
+    }
   }
 
   render() {
@@ -31,9 +36,15 @@ class Today extends Component {
         <Header />
         <View inset>
           <Wrapper>
+            {/* SHOW TODAY DATE */}
             <Text title>HOJE</Text>
             <Text label center>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Text>
+            {/* SHOW TODAY PROGRESS */}
             <Progress />
+            {/* SHOW PRESENT STATUS */}
+            <Text label center>
+              {this.isWorking() ? 'TRABALHANDO' : 'DESCANSANDO'}
+            </Text>
           </Wrapper>
           <Clock onPress={this.newRegistry}></Clock>
           <Wrapper>

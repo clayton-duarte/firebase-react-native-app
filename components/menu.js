@@ -1,8 +1,10 @@
 import styled from 'styled-components/native';
+import { bindActionCreators } from 'redux';
 import { Icon, Button } from 'native-base';
 import { connect } from 'react-redux';
 import React from 'react';
 
+import { signOut } from '../actions';
 import View from './view';
 import Text from './text';
 import Row from './row';
@@ -45,7 +47,7 @@ const MenuItem = ({ children, ...rest }) => (
 );
 
 const Menu = ({ 
-  navigation: { navigate, closeDrawer }, auth: { user: { displayName } } 
+  navigation: { navigate, closeDrawer }, auth: { user: { displayName } }, signOut
 }) => (
   <View>
     <Wrapper>
@@ -60,6 +62,7 @@ const Menu = ({
       <MenuItem onPress={() => navigate('Registry')}>registros</MenuItem>
       {/* <MenuItem onPress={() => navigate('History')}>histórico</MenuItem> */}
       <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
+      <MenuItem onPress={signOut}>logout</MenuItem>
     </Wrapper>
     <Wrapper>
       <Text label center>desenvolvido por{'\n'}CLAYTON DUARTE</Text>
@@ -67,4 +70,5 @@ const Menu = ({
   </View>
 );
 
-export default connect(state => state)(Menu);
+const mapDispatchToProps = dispatch => bindActionCreators({ signOut }, dispatch);
+export default connect(state => state, mapDispatchToProps)(Menu);

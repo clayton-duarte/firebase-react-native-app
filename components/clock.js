@@ -4,10 +4,14 @@ import moment from 'moment';
 
 const Touch = styled.TouchableOpacity`
 background-color: ${({ theme }) => theme.action};
-border-radius: ${({ theme }) => theme.radius};
 ${({ theme }) => theme.shadow};
+justify-content: center;
+border-radius: 100px;
+align-items: center;
 margin: 4px auto;
 padding: 12px;
+height: 200px;
+width: 200px;
 `;
 
 const Time = styled.Text`
@@ -29,8 +33,6 @@ font-weight: bold;
 font-size: 12px;
 `;
 
-const Date = styled(Text)``;
-
 export default class Clock extends Component {
   constructor(props) {
     super(props);
@@ -51,9 +53,8 @@ export default class Clock extends Component {
   render() {
     return (
       <Touch {...this.props}>
-        {/* <Date>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Date> */}
-        <Time>{moment().format(`h:mm:ss a`)}</Time>
-        <Text>MARCAR NOVO REGISTRO</Text>
+        <Time>{moment().format(`H:mm:ss`)}</Time>
+        <Text>MARCAR PONTO</Text>
       </Touch>
     );
   }

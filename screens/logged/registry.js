@@ -21,7 +21,7 @@ class LoadScreen extends Component {
         <Wrapper>
           <Text title>ÚLTIMOS 30 DIAS</Text>
           <Table />
-          <Button onPress={() => navigate('Today')}>NOVO REGISTRO</Button>
+          <Button onPress={() => navigate('Today')}>HOJE</Button>
         </Wrapper>
       </List>
     );
