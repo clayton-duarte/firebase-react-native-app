@@ -8,27 +8,24 @@ export const capitalize = name => {
 }
 
 export const calcDuration = dayRegistry => {
-  if (!dayRegistry) return '';
+  if (!dayRegistry) return {};
   const timestamps = dayRegistry.map(position => position.timestamp);
   // SETUP DATA
   const registry1 = moment(timestamps[0]);
   const registry2 = moment(timestamps[1]);
   const registry3 = moment(timestamps[2]);
   const registry4 = moment(timestamps[3]);
-  const diff1 = moment.duration(registry2.diff(registry1));
-  const diff2 = moment.duration(registry4.diff(registry3));
-  const morning = diff1.asHours();
-  const allDay = diff1.add(diff2).asHours();
-  const format = time => time.toString().substring(0,4).replace('.', ',');
+  // CALCS
+  const afternoon = moment.duration(registry4.diff(registry3)).asHours();
+  const morning = moment.duration(registry2.diff(registry1)).asHours();
+  const lunch = moment.duration(registry3.diff(registry2)).asHours();
+  const total = (morning + afternoon).toFixed(2);
   // RETURN
-  switch (dayRegistry.length) {
-    case 2:
-    case 3:
-      return format(morning);
-    case 4:
-      return format(allDay);
-    default:
-      return '0,00';
+  return {
+    afternoon,
+    morning,
+    total,
+    lunch,
   }
 }
 

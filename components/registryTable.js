@@ -50,7 +50,7 @@ const Table = ({
               </Hour>
             ))}
           </Wrapper>
-          <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>
+          <Hour total><StyledIcon total name='time'/>{calcDuration(history[day]).total}</Hour>
         </Row>
       </Col>
     ) : null

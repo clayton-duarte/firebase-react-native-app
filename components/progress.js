@@ -6,11 +6,18 @@ import React from 'react';
 
 import { calcDuration } from '../utils';
 
-const FloatdIcon = styled(Icon)`
+const LunchIcon = styled(Icon)`
+color: ${({ theme }) => theme.bg_primary};
+${({ theme }) => theme.text_shadow};
+font-size: 10px;
+`;
+
+const PersonIcon = styled(Icon)`
 background-color: ${({ theme }) => theme.bg_secondary};
 color: ${({ theme }) => theme.secondary};
-left: ${({ size }) => size}%;
+${({ theme }) => theme.text_shadow};
 ${({ theme }) => theme.shadow};
+left: ${({ size }) => size}%;
 border-radius: 10px;
 margin-left: -10px;
 text-align: center;
@@ -36,8 +43,10 @@ width: 100%;
 `;
 
 const Inside = styled.View`
-background-color: ${({ theme }) => theme.action};
+background-color: ${({ theme, index }) => (index === 1) ? theme.warn : theme.action};
 width: ${({ size }) => size}%;
+justify-content: center;
+align-items: center;
 height: 12px;
 `;
 
@@ -51,25 +60,46 @@ height: 20px;
 const calcTime = (history, days) => {
   // VERIFY
   const today = history[days[0]];
-  if (!today) return 0;
+  if (!today) return [];
   // CALC
-  const todayDuration = Number(calcDuration(today).replace(',', '.'));
-  const lastRegistry = today[(today.length - 1)].timestamp;
+  const length = today.length;
+  const { morning, lunch, afternoon } = calcDuration(today);
+  const lastRegistry = today[(length - 1)].timestamp;
   const last = moment(lastRegistry);
   const diff = moment.duration(moment().diff(last)).asHours();
   // RETURN
-  if(today.length % 2) return todayDuration + diff;
-  return todayDuration; 
+  switch (length) {
+    case 1:
+      return [ diff ];
+    case 2:
+      return [ morning, diff ];
+    case 3:
+      return [ morning, lunch, diff ];
+    case 4:
+      return [ morning, lunch, afternoon ];  
+    default:
+      return [];
+  }
 }
 
 const Logo = ({ registry: { history, days } }) => {
-  const percent = (calcTime(history, days) * 100 / 8);
+  const percent = calcTime(history, days).map(data => (data * 100 / 8));
   return (
     <Row>
       <Outside>
-        <Inside size={percent} />
+        {
+          percent.map((size, index) => (
+            <Inside index={index} size={size}>
+              {
+                (index === 1)
+                ? <LunchIcon name='hand'/>
+                : null
+              }
+            </Inside>
+          ))
+        }
       </Outside>
-      <FloatdIcon size={percent} name='walk' />
+      <PersonIcon size={percent.reduce(( acc, cur ) => ( acc + cur), 0)} name='walk' />
     </Row>
   );
 }
