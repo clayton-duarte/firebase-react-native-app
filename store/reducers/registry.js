@@ -1,8 +1,9 @@
 import { REGISTRY } from '../../actions/types';
 
 const initialState = {
-  todayDuration: '',
-  history: {},
+  history: {
+    loading: true,
+  },
   hours: [],
   days: [],
 };

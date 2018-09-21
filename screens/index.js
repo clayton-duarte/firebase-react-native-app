@@ -68,10 +68,15 @@ class Auth extends Component {
   }
 
   render() {
-    const { user } = this.props.auth;
+    // SETUP
+    const { registry: { history }, auth: { user } } = this.props;
     const { loading } = this.state;
+    // RETURNS
     if (loading) return (<View><Loader/></View>);
-    if (user) return (<Logged />);
+    if (user) {
+      if(history.loading) return (<View><Loader/></View>);
+      return (<Logged />);
+    }
     return (<Unlogged />);
   }
 }

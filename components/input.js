@@ -8,10 +8,10 @@ import theme from '../theme';
 // NORMAL INPUT
 const Input = styled.TextInput`
 background-color:  ${({ theme }) => theme.bg_primary};
+border-radius: ${({ theme }) => theme.radius};
 color:  ${({ theme }) => theme.primary};
 ${({ theme }) => theme.shadow};
 letter-spacing: 0.5px;
-border-radius: 4px;
 font-size: 16px;
 padding: 12px;
 margin: 4px;
@@ -27,8 +27,8 @@ Input.defaultProps = {
 // TIME PICKER
 const Touch = styled.TouchableOpacity`
 background-color:  ${({ theme }) => theme.bg_primary};
+border-radius: ${({ theme }) => theme.radius};
 ${({ theme }) => theme.shadow};
-border-radius: 4px;
 padding: 12px;
 margin: 4px;
 `;

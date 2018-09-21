@@ -23,6 +23,11 @@ const renderDay = date => {
   return day;
 };
 
+const Wrapper = styled.View`
+flex-direction: row;
+flex: 4 1 0;
+`;
+
 const changeIcon = index => ((index % 2) ? 'log-out' : 'log-in');
 
 const Table = ({
@@ -33,15 +38,18 @@ const Table = ({
     ? (
       <Col key={`registry-day-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
         <Row>
-          <Day date>{renderDay(day)}</Day>
+          <Day date flex={4}>{renderDay(day)}</Day>
+          <Day date flex={1}>TOTAL</Day>
         </Row>
         <Row>
-          {history[day].map((position, index) => (
-            <Hour key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
-              <StyledIcon name={changeIcon(index)} />
-              {moment(position.timestamp).format('H:mm')}
-            </Hour>
-          ))}
+          <Wrapper>
+            {history[day].map((position, index) => (
+              <Hour flex={.25} key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
+                <StyledIcon name={changeIcon(index)} />
+                {moment(position.timestamp).format('H:mm')}
+              </Hour>
+            ))}
+          </Wrapper>
           <Hour total><StyledIcon total name='time'/>{calcDuration(history[day])}</Hour>
         </Row>
       </Col>

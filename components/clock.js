@@ -4,8 +4,8 @@ import moment from 'moment';
 
 const Touch = styled.TouchableOpacity`
 background-color: ${({ theme }) => theme.action};
+border-radius: ${({ theme }) => theme.radius};
 ${({ theme }) => theme.shadow};
-border-radius: 4px;
 margin: 4px auto;
 padding: 12px;
 `;

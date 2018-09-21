@@ -7,4 +7,5 @@ export default {
   primary: '#393e46',
   action: '#f8b500',
   warn: '#db3951',
+  radius: '4px',
 }

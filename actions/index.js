@@ -1,9 +1,9 @@
 import { Alert } from 'react-native';
 import moment from 'moment';
 
-import { calcDuration, getPosition } from '../utils';
 import { LOG_IN, LOG_OUT, REGISTRY } from './types';
 import Firebase from '../firebase.config';
+import { getPosition } from '../utils';
 
 // INSTANCES
 const Database = Firebase.database();
@@ -11,12 +11,12 @@ const Auth = Firebase.auth();
 Auth.languageCode = 'pt-BR';
 
 // AUTH
-export const signInWithEmailAndPassword = params => async dispatch => {
+export const signInWithEmailAndPassword = params => dispatch => {
   // SETUP
   const { email, password } = params;
   // REQUEST
   Auth.signInWithEmailAndPassword(email, password)
-    .then(async () => {
+    .then(() => {
       const user = Auth.currentUser;
       dispatch(getPreviousRegistry());
       dispatch({
@@ -29,11 +29,11 @@ export const signInWithEmailAndPassword = params => async dispatch => {
     .catch(error => console.log(error));
 };
 
-export const verifyAuthentication = callback => async dispatch => {
+export const verifyAuthentication = callback => dispatch => {
   // REQUEST
-  Auth.onAuthStateChanged(async (user) => {
+  Auth.onAuthStateChanged((user) => {
     if (user) {
-      await dispatch(getPreviousRegistry());
+      dispatch(getPreviousRegistry());
       dispatch({
         type: LOG_IN,
         payload: {
@@ -49,7 +49,7 @@ export const verifyAuthentication = callback => async dispatch => {
   });
 };
 
-export const createUserWithEmailAndPassword = params => async dispatch => {
+export const createUserWithEmailAndPassword = params => dispatch => {
   // SETUP
   const { email, password, displayName } = params;
   // REQUEST
@@ -60,7 +60,7 @@ export const createUserWithEmailAndPassword = params => async dispatch => {
     .catch(error => console.log(error));
 };
 
-export const signOut = () => async dispatch => {
+export const signOut = () => dispatch => {
   // REQUEST
   Auth.signOut()
     .then(() => {
@@ -71,7 +71,7 @@ export const signOut = () => async dispatch => {
     .catch(error => console.log(error));
 };
 
-export const updateProfile = params => async dispatch => {
+export const updateProfile = params => dispatch => {
   // POSSIBLE FIELDS
   // displayName (OK!)
   // email (use updateEmail)
@@ -95,7 +95,7 @@ export const updateProfile = params => async dispatch => {
 };
 
 // REGISTRY
-export const makeRegistry = params => async dispatch => {
+export const makeRegistry = params => dispatch => {
   // SETUP
   const { day, index, position } = params;
   const { uid } = Auth.currentUser;
@@ -129,7 +129,7 @@ export const insertNewRegistry = params => async dispatch => {
   dispatch(makeRegistry({ day, index, position }));
 };
 
-export const editDay = params => async dispatch => {
+export const editDay = params => dispatch => {
   // SETUP
   const { day, registry } = params;
   const { uid } = Auth.currentUser;
@@ -143,7 +143,7 @@ export const editDay = params => async dispatch => {
   dispatch(getPreviousRegistry());
 };
 
-export const getPreviousRegistry = () => async dispatch => {
+export const getPreviousRegistry = () => dispatch => {
   // SETUP
   const { uid } = Auth.currentUser;
   // REQUEST
@@ -154,11 +154,9 @@ export const getPreviousRegistry = () => async dispatch => {
       const days = Object.keys(history);
       hours.reverse();
       days.reverse();
-      const todayDuration = calcDuration(history[days[0]]);
       dispatch({
         type: REGISTRY,
         payload: {
-          todayDuration,
           history,
           hours,
           days,

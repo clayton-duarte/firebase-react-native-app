@@ -8,6 +8,7 @@ export const capitalize = name => {
 }
 
 export const calcDuration = dayRegistry => {
+  if (!dayRegistry) return '';
   const timestamps = dayRegistry.map(position => position.timestamp);
   // SETUP DATA
   const registry1 = moment(timestamps[0]);
@@ -27,7 +28,7 @@ export const calcDuration = dayRegistry => {
     case 4:
       return format(allDay);
     default:
-      return '+0:00';
+      return '0,00';
   }
 }
 

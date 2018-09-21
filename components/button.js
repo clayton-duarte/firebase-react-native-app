@@ -5,7 +5,7 @@ const Touch = styled.TouchableOpacity`
 background-color: ${({ theme, secondary, link }) => (secondary || link) ? 'transparent' : theme.action};
 border-width: ${({ secondary }) => secondary ? 2 : 0}px;
 ${({ theme, link }) => link ? '': theme.shadow};
-border-radius: 4px;
+border-radius: ${({ theme }) => theme.radius};
 padding: 12px;
 margin: 4px;
 `;

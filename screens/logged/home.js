@@ -22,10 +22,6 @@ class Today extends Component {
       const { registry } = this.props;
       this.props.insertNewRegistry({ registry })
     };
-    this.calcTodayProgress = () => {
-      const { todayDuration } = this.props.registry;
-      return (Number(todayDuration.replace(',', '.')) * 100 / 8);
-    }
   }
 
   render() {
@@ -35,9 +31,9 @@ class Today extends Component {
         <Header />
         <View inset>
           <Wrapper>
-            <Text title>JORNADA DE HOJE</Text>
+            <Text title>HOJE</Text>
             <Text label center>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Text>
-            <Progress size={this.calcTodayProgress()} />
+            <Progress />
           </Wrapper>
           <Clock onPress={this.newRegistry}></Clock>
           <Wrapper>
