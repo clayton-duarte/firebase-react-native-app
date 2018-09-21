@@ -1,9 +1,10 @@
 import styled from 'styled-components/native';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 const Touch = styled.TouchableOpacity`
-background-color: ${({ theme }) => theme.action};
+background-color: ${({ theme, working }) => working ? theme.action : theme.warn};
 ${({ theme }) => theme.shadow};
 justify-content: center;
 border-radius: 100px;
@@ -32,12 +33,16 @@ text-align: center;
 font-weight: bold;
 font-size: 12px;
 `;
-
-export default class Clock extends Component {
+class Clock extends Component {
   constructor(props) {
     super(props);
     this.state = {}
-    this.updateClock = () => this.setState(prevState => ({ tic: !prevState.tic }));
+    this.working = () => {
+      const { history, days } = this.props.registry;
+      const today = history[days[0]];
+      return (today.length % 2)
+    }
+    this.updateClock = () => this.setState(prevState => ({ tic: !prevState.tic, working: this.working() }));
     this.startClock = () => this.setState({ clock: setInterval(() => this.updateClock(), 1000)});
     this.stopClock = () => clearInterval(this.state.clock);
   }
@@ -51,11 +56,15 @@ export default class Clock extends Component {
   }
 
   render() {
+    const { working } = this.state;
     return (
-      <Touch {...this.props}>
+      <Touch {...this.props} working={working}>
+        <Text>{working ? 'TRABALHANDO' : 'DESCANSANDO'}</Text>
         <Time>{moment().format(`H:mm:ss`)}</Time>
         <Text>MARCAR PONTO</Text>
       </Touch>
     );
   }
 }
+
+export default connect(state => state)(Clock);

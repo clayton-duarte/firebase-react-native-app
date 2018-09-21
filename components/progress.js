@@ -6,27 +6,38 @@ import React from 'react';
 
 import { calcDuration } from '../utils';
 
-const LunchIcon = styled(Icon)`
+const InsideIcon = styled(Icon)`
 color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.text_shadow};
 font-size: 10px;
 `;
 
-const PersonIcon = styled(Icon)`
+const HomeIcon = styled(Icon)`
 background-color: ${({ theme }) => theme.bg_secondary};
 color: ${({ theme }) => theme.secondary};
 ${({ theme }) => theme.text_shadow};
 ${({ theme }) => theme.shadow};
-left: ${({ size }) => size}%;
-border-radius: 10px;
-margin-left: -10px;
+border-radius: 12px;
 text-align: center;
 position: absolute;
-font-size: 16px;
+font-size: 18px;
 padding: 2px;
-height: 20px;
-width: 20px;
-top: 0px;
+height: 24px;
+width: 24px;
+margin: 0;
+`;
+
+const FloatIcon = styled(HomeIcon)`
+left: ${({ size }) => size}%;
+margin-left: -12px;
+`;
+
+const HomeIcon1 = styled(HomeIcon)`
+left: -4px;
+`;
+
+const HomeIcon2 = styled(HomeIcon)`
+right: -4px;
 `;
 
 const Outside = styled.View`
@@ -34,36 +45,36 @@ background-color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.shadow};
 flex-direction: row;
 align-items: center;
+border-radius: 8px;
 position: relative;
-border-radius: 6px;
 overflow: hidden;
 margin: 4px 0;
-height: 12px;
+height: 16px;
 width: 100%;
 `;
 
 const Inside = styled.View`
-background-color: ${({ theme, index }) => (index === 1) ? theme.warn : theme.action};
+background-color: ${({ theme, index }) => (index % 2) ? theme.warn : theme.action};
 width: ${({ size }) => size}%;
 justify-content: center;
 align-items: center;
-height: 12px;
+height: 16px;
 `;
 
 const Row = styled.View`
 flex-direction: row;
 align-items: center;
-height: 20px;
+margin: 0 4px;
+height: 24px;
 `;
 
 // TIME FUNCTIONS
-const calcTime = (history, days) => {
+const calcTime = (today, duration) => {
   // VERIFY
-  const today = history[days[0]];
   if (!today) return [];
   // CALC
   const length = today.length;
-  const { morning, lunch, afternoon } = calcDuration(today);
+  const { morning, lunch, afternoon } = duration;
   const lastRegistry = today[(length - 1)].timestamp;
   const last = moment(lastRegistry);
   const diff = moment.duration(moment().diff(last)).asHours();
@@ -82,24 +93,28 @@ const calcTime = (history, days) => {
   }
 }
 
+const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
+
 const Logo = ({ registry: { history, days } }) => {
-  const percent = calcTime(history, days).map(data => (data * 100 / 8));
+  const today = history[days[0]];
+  const { total, ...rest } = calcDuration(today);
+  const percent = calcTime(today, {...rest}).map(data => (data * 100 / (total > 8 ? total : 8)));
+  const left = percent.reduce(( acc, cur ) => ( acc + cur), 0);
+  console.log(percent);
   return (
     <Row>
       <Outside>
         {
           percent.map((size, index) => (
-            <Inside index={index} size={size}>
-              {
-                (index === 1)
-                ? <LunchIcon name='hand'/>
-                : null
-              }
+            <Inside key={`progress-inside-bar-${index}`} index={index} size={size}>
+              <InsideIcon name={iconList[index]}/>
             </Inside>
           ))
         }
       </Outside>
-      <PersonIcon size={percent.reduce(( acc, cur ) => ( acc + cur), 0)} name='walk' />
+      <HomeIcon1 name='home'/>
+      { (left && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
+      <HomeIcon2 name='home'/>
     </Row>
   );
 }

@@ -10,6 +10,7 @@ import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Clock from '../../components/clock';
+import { calcDuration } from '../../utils';
 import View from '../../components/view';
 import Text from '../../components/text';
 
@@ -22,10 +23,11 @@ class Today extends Component {
       const { registry } = this.props;
       this.props.insertNewRegistry({ registry })
     };
-    this.isWorking = () => {
+    this.goHome = () => {
       const { registry: { history, days } } = this.props;
       const today = history[days[0]];
-      return (today.length % 2);
+      const { lunch } = calcDuration(today);
+      return today[0] ? moment(today[0].timestamp).add(9, 'hours').subtract((1 - lunch), 'hours').format('H:mm[h]') : '--';
     }
   }
 
@@ -41,9 +43,9 @@ class Today extends Component {
             <Text label center>{moment().format('dddd DD/MM/YYYY').toUpperCase()}</Text>
             {/* SHOW TODAY PROGRESS */}
             <Progress />
-            {/* SHOW PRESENT STATUS */}
+            {/* MORE INFO */}
             <Text label center>
-              {this.isWorking() ? 'TRABALHANDO' : 'DESCANSANDO'}
+              SAÍDA PREVISTA {this.goHome()}
             </Text>
           </Wrapper>
           <Clock onPress={this.newRegistry}></Clock>

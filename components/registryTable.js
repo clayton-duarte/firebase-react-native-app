@@ -6,13 +6,13 @@ import moment from 'moment';
 import React from 'react';
 
 import { calcDuration } from '../utils';
-import Hour from './hour';
+import Hour, { setColor } from './hour';
 import Day from './day';
 import Row from './row';
 import Col from './col';
 
 const StyledIcon = styled(Icon)`
-color: ${({ theme, total }) => (total ? theme.action : theme.secondary)};
+color:  ${({ length, index, total, theme }) => setColor({ length, index, total, theme })};
 font-size: 12px;
 `;
 
@@ -45,7 +45,7 @@ const Table = ({
           <Wrapper>
             {history[day].map((position, index) => (
               <Hour flex={.25} key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
-                <StyledIcon name={changeIcon(index)} />
+                <StyledIcon length={(history[day].length)} name={changeIcon(index)} index={index} />
                 {moment(position.timestamp).format('H:mm')}
               </Hour>
             ))}

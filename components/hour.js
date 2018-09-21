@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 import Day from './day';
 
-const setColor = ({ length, index, total, theme }) => {
+export const setColor = ({ length, index, total, theme }) => {
   // HIGHTLIGHT TOTAL
   if (total) return theme.action;
   // HIGHTLIGHT ODD REGISTRY
