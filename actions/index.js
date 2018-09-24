@@ -1,4 +1,5 @@
 import { Alert } from 'react-native';
+import firebase from 'firebase';
 import moment from 'moment';
 
 import { LOG_IN, LOG_OUT, REGISTRY } from './types';
@@ -6,6 +7,7 @@ import Firebase from '../firebase.config';
 import { getPosition } from '../utils';
 
 // INSTANCES
+const Google = new firebase.auth.GoogleAuthProvider();
 const Database = Firebase.database();
 const Auth = Firebase.auth();
 Auth.languageCode = 'pt-BR';
@@ -26,7 +28,7 @@ export const signInWithEmailAndPassword = params => dispatch => {
         },
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('signInWithEmailAndPassword', error));
 };
 
 export const verifyAuthentication = callback => dispatch => {
@@ -44,20 +46,20 @@ export const verifyAuthentication = callback => dispatch => {
     }
     callback();
   }, (error) => {
-    console.log(error);
+    console.log('verifyAuthentication', error);
     callback();
   });
 };
 
 export const createUserWithEmailAndPassword = params => dispatch => {
   // SETUP
-  const { email, password, displayName } = params;
+  const { email, password, ...profile } = params;
   // REQUEST
   Auth.createUserWithEmailAndPassword(email, password)
     .then(() => {
-      dispatch(updateProfile({ displayName }));
+      dispatch(updateProfile({ ...profile }));
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('createUserWithEmailAndPassword', error));
 };
 
 export const signOut = () => dispatch => {
@@ -68,7 +70,7 @@ export const signOut = () => dispatch => {
         type: LOG_OUT,
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('signOut', error));
 };
 
 export const updateProfile = params => dispatch => {
@@ -89,7 +91,23 @@ export const updateProfile = params => dispatch => {
         payload: { user },
       });
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('updateProfile', error));
+};
+
+export const signInWithProvider = provider => dispatch => {
+  // REQUEST
+  Auth.signInWithPopup(provider).then(({ user }) => {
+    // var token = result.credential.accessToken;
+      dispatch({
+        type: LOG_IN,
+        payload: { user },
+      });
+  }).catch(error => console.log('signInWithProvider', error));
+};
+
+export const signInWithGoogle = () => dispatch => {
+  // REQUEST
+  dispatch(signInWithProvider(Google));
 };
 
 // REGISTRY
@@ -102,8 +120,8 @@ export const makeRegistry = params => dispatch => {
     .then(() => {
       dispatch(getPreviousRegistry());
     })
-    .catch(error => console.log(error));
-  // dispatch(getPreviousRegistry());
+    .catch(error => console.log('makeRegistry', error));
+  dispatch(getPreviousRegistry());
 };
 
 export const insertNewRegistry = params => async dispatch => {
@@ -137,7 +155,7 @@ export const editDay = params => dispatch => {
     .then(() => {
       dispatch(getPreviousRegistry());
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('editDay', error));
   dispatch(getPreviousRegistry());
 };
 
@@ -148,8 +166,9 @@ export const getPreviousRegistry = () => dispatch => {
   Database.ref(`${uid}`).once('value')
     .then((snapshot) => {
       const { profile, history } = snapshot.val() || {};
-      const hours = Object.values(history);
-      const days = Object.keys(history);
+      const prevHistory = history || {};
+      const hours = Object.values(prevHistory);
+      const days = Object.keys(prevHistory);
       hours.reverse();
       days.reverse();
       dispatch({
@@ -162,5 +181,5 @@ export const getPreviousRegistry = () => dispatch => {
         },
       })
     })
-    .catch(error => console.log(error));
+    .catch(error => console.log('getPreviousRegistry', error));
 };

@@ -1,9 +1,8 @@
 import { REGISTRY } from '../../actions/types';
 
 const initialState = {
-  history: {
-    loading: true,
-  },
+  loadingRegistry: true,
+  history: {},
   profile: {
     journey: 8,
     lunch: 60,

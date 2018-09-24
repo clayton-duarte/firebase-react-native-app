@@ -26,7 +26,7 @@ class LoadScreen extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    const { navigation: { navigate } } = this.props;
     return(
       <View>
         <Wrapper />

@@ -4,7 +4,7 @@ import React from 'react';
 
 
 const StyledIcon1 = styled(Icon)`
-color: ${({ theme }) => theme.primary};
+color: ${({ theme }) => theme.warn};
 font-size: ${({ size }) => size}px;
 left: ${({ size }) => size * .1}px;
 top: ${({ size }) => size * .05}px;

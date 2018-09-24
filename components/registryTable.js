@@ -7,6 +7,7 @@ import React from 'react';
 
 import { calcDuration } from '../utils';
 import Hour, { setColor } from './hour';
+import Text from './text';
 import Day from './day';
 import Row from './row';
 import Col from './col';
@@ -33,6 +34,7 @@ const changeIcon = index => ((index % 2) ? 'log-out' : 'log-in');
 const Table = ({
   registry: { days, history }, navigation: { navigate }, depth,
 }) => (
+  days.length ?
   days.map((day, index) => (
     (index < depth)
     ? (
@@ -55,6 +57,7 @@ const Table = ({
       </Col>
     ) : null
   ))
+  : <Text label center>NENHUM REGISTRO PARA MOSTRAR</Text>
 );
 
 Table.defaultProps = {

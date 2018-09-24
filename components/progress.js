@@ -71,7 +71,7 @@ height: 24px;
 // TIME FUNCTIONS
 const calcTime = (today, duration) => {
   // VERIFY
-  if (!today) return [];
+  if (!today.length) return [];
   // CALC
   const length = today.length;
   const { morning, lunch, afternoon } = duration;
@@ -95,12 +95,11 @@ const calcTime = (today, duration) => {
 
 const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
 
-const Logo = ({ registry: { history, days, profile: { journey } } }) => {
-  const today = history[days[0]];
+const Progress = ({ registry: { history, days, profile: { journey } } }) => {
+  const today = days.length ? history[days[0]] : [];
   const { total, ...rest } = calcDuration(today);
   const percent = calcTime(today, {...rest}).map(data => (data * 100 / (total > journey ? total : journey)));
   const left = percent.reduce(( acc, cur ) => ( acc + cur), 0);
-  console.log(percent);
   return (
     <Row>
       <Outside>
@@ -119,4 +118,4 @@ const Logo = ({ registry: { history, days, profile: { journey } } }) => {
   );
 }
 
-export default connect(state => state)(Logo);
+export default connect(state => state)(Progress);

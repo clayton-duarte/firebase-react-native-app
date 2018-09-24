@@ -47,7 +47,7 @@ class Clock extends Component {
     }
     this.clockStatus = () => {
       const { history, days } = this.props.registry;
-      const today = history[days[0]];
+      const today = days.length ? history[days[0]] : [];
       switch (today.length) {
         case 1:
         case 3:
