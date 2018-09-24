@@ -7,6 +7,7 @@ import React from 'react';
 
 import { calcDuration } from '../utils';
 import Hour, { setColor } from './hour';
+import Progress from './progress';
 import Text from './text';
 import Day from './day';
 import Row from './row';
@@ -32,7 +33,7 @@ flex: 4 1 0;
 const changeIcon = index => ((index % 2) ? 'log-out' : 'log-in');
 
 const Table = ({
-  registry: { days, history }, navigation: { navigate }, depth, now
+  registry: { days, history }, navigation: { navigate }, depth
 }) => (
   days.length ?
   days.map((day, index) => (
@@ -42,8 +43,8 @@ const Table = ({
         <Row>
           <Day date flex={4}>{renderDay(day)}</Day>
           <Day date flex={1}>TOTAL</Day>
-          {console.log('now', now)}
         </Row>
+        { depth > 1 ? <Progress mini day={history[day]}/> : null }
         <Row>
           <Wrapper>
             {history[day].map((position, index) => (

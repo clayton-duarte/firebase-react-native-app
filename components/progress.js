@@ -42,23 +42,23 @@ right: -4px;
 
 const Outside = styled.View`
 background-color: ${({ theme }) => theme.bg_primary};
-${({ theme }) => theme.shadow};
+${({ theme, mini }) => mini ? '' : theme.shadow};
+border-radius: ${({ mini }) => mini ? 0 : 8}px;
+margin: ${({ mini }) => mini ? 0 : '4px 0'};
+height: ${({ mini }) => mini ? 2 : 16}px;
 flex-direction: row;
 align-items: center;
-border-radius: 8px;
 position: relative;
 overflow: hidden;
-margin: 4px 0;
-height: 16px;
 width: 100%;
 `;
 
 const Inside = styled.View`
 background-color: ${({ theme, index }) => (index % 2) ? theme.warn : theme.action};
+height: ${({ mini }) => mini ? 2 : 16}px;
 width: ${({ size }) => size}%;
 justify-content: center;
 align-items: center;
-height: 16px;
 `;
 
 const Row = styled.View`
@@ -95,17 +95,26 @@ const calcTime = (today, duration) => {
 
 const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
 
-const Progress = ({ registry: { history, days, profile: { journey } } }) => {
-  const today = days.length ? history[days[0]] : [];
-  const { total, ...rest } = calcDuration(today);
-  const percent = calcTime(today, {...rest}).map(data => (data * 100 / (total > journey ? total : journey)));
+const Progress = ({ registry: { history, days, profile: { journey } }, day, mini }) => {
+  if (!day) day = days.length ? history[days[0]] : [];
+  const { total, ...rest } = calcDuration(day);
+  const percent = calcTime(day, {...rest}).map(data => (data * 100 / (total > journey ? total : journey)));
+  if (mini) return (
+    <Outside mini>
+      {
+        percent.map((size, index) => (
+          <Inside mini key={`mini-progress-inside-bar-${day}-${index}`} index={index} size={size}/>
+        ))
+      }
+    </Outside>
+  );
   const left = percent.reduce(( acc, cur ) => ( acc + cur), 0);
   return (
     <Row>
       <Outside>
         {
           percent.map((size, index) => (
-            <Inside key={`progress-inside-bar-${index}`} index={index} size={size}>
+            <Inside key={`progress-inside-bar-${day}-${index}`} index={index} size={size}>
               <InsideIcon name={iconList[index]}/>
             </Inside>
           ))
