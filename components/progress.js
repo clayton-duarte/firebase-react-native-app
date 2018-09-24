@@ -29,15 +29,15 @@ margin: 0;
 
 const FloatIcon = styled(HomeIcon)`
 left: ${({ size }) => size}%;
-margin-left: -6px;
+margin-left: -12px;
 `;
 
 const HomeIcon1 = styled(HomeIcon)`
-left: -4px;
+left: -12px;
 `;
 
 const HomeIcon2 = styled(HomeIcon)`
-right: -4px;
+right: -12px;
 `;
 
 const Outside = styled.View`
@@ -100,10 +100,11 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   if (!day) day = days.length ? history[days[0]] : [];
   // CALC DURATIONS WORK AND LANCH
   const { total, lunch, ...rest } = calcDuration(day);
-  const todaysJourney = total > profile.journey ? total : profile.journey;
-  const todaysLunch = lunch ? lunch : moment.duration(profile.lunch, 'm').asHours();
+  const todaysJourney = Number(total > profile.journey ? total : profile.journey);
+  const todaysLunch = Number(lunch ? lunch : moment.duration(profile.lunch, 'm').asHours());
   // CALC PERCENTS OF THIS DURATIONS
   const percent = calcTime(day, { lunch, ...rest }).map(data => (data * 100 / (todaysJourney + todaysLunch)));
+  console.log(todaysLunch + todaysJourney)
   // RETURN MINI PROGRESS BAR
   if (mini) return (
     <Outside mini>
@@ -129,7 +130,7 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
       </Outside>
       <HomeIcon1 name='home'/>
       <HomeIcon2 name='home'/>
-      { (left > 1 && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
+      { (left && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
     </Row>
   );
 }
