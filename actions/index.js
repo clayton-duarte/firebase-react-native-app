@@ -126,7 +126,8 @@ export const makeRegistry = params => dispatch => {
 
 export const insertNewRegistry = params => async dispatch => {
   // SETUP
-  const { registry: { history } } = params;
+  let { registry: { history } } = params;
+  if(!history) history = {};
   const position = await getPosition();
   if (!position) return alert('Precisamos da permissão de localização para poder registrar a hora com maior precisão. Por favor, permita o acesso para podermos continuar.')
   // PREPARE DATA

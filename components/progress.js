@@ -29,7 +29,6 @@ margin: 0;
 
 const FloatIcon = styled(HomeIcon)`
 left: ${({ size }) => size}%;
-margin-left: -12px;
 `;
 
 const HomeIcon1 = styled(HomeIcon)`
