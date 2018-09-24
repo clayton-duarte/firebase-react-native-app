@@ -25,7 +25,7 @@ export const registerForPushNotifications = () => async dispatch => {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
     finalStatus = status;
   }
-  if (finalStatus !== 'granted') return console.log('status', finalStatus);
+  if (finalStatus !== 'granted') return Alert.alert('Erro!', 'notification permission status:' + finalStatus);
 
   const token = await Notifications.getExpoPushTokenAsync();
   // this.subscription = Notifications.addListener(this.handleNotification);
@@ -73,7 +73,7 @@ export const signInWithEmailAndPassword = params => dispatch => {
         },
       });
     })
-    .catch(error => console.log('signInWithEmailAndPassword', error));
+    .catch(error => Alert.alert('Erro!', 'signInWithEmailAndPassword' + error));
 };
 
 export const verifyAuthentication = callback => dispatch => {
@@ -87,11 +87,10 @@ export const verifyAuthentication = callback => dispatch => {
           user,
         },
       });
-      console.log("Olá", user.displayName);
     }
     callback();
   }, (error) => {
-    console.log('verifyAuthentication', error);
+    Alert.alert('Erro!', 'verifyAuthentication' + error);
     callback();
   });
 };
@@ -104,7 +103,7 @@ export const createUserWithEmailAndPassword = params => dispatch => {
     .then(() => {
       dispatch(updateProfile({ ...profile }));
     })
-    .catch(error => console.log('createUserWithEmailAndPassword', error));
+    .catch(error => Alert.alert('Erro!', 'createUserWithEmailAndPassword' + error));
 };
 
 export const signOut = () => dispatch => {
@@ -115,7 +114,7 @@ export const signOut = () => dispatch => {
         type: LOG_OUT,
       });
     })
-    .catch(error => console.log('signOut', error));
+    .catch(error => Alert.alert('Erro!', 'signOut' + error));
 };
 
 export const updateProfile = params => dispatch => {
@@ -129,14 +128,13 @@ export const updateProfile = params => dispatch => {
       .then(() => {
         dispatch(getPreviousRegistry());
       })
-      .catch(error => console.log(error));
-      console.log('USER:', user)
+      .catch(error => Alert.alert('Erro!' + error));
       dispatch({
         type: LOG_IN,
         payload: { user },
       });
     })
-    .catch(error => console.log('updateProfile', error));
+    .catch(error => Alert.alert('Erro!', 'updateProfile' + error));
 };
 
 export const signInWithProvider = provider => dispatch => {
@@ -147,7 +145,7 @@ export const signInWithProvider = provider => dispatch => {
         type: LOG_IN,
         payload: { user },
       });
-  }).catch(error => console.log('signInWithProvider', error));
+  }).catch(error => Alert.alert('Erro!', 'signInWithProvider' + error));
 };
 
 export const signInWithGoogle = () => dispatch => {
@@ -166,7 +164,7 @@ export const makeRegistry = params => dispatch => {
       vibrate();
       dispatch(getPreviousRegistry());
     })
-    .catch(error => console.log('makeRegistry', error));
+    .catch(error => Alert.alert('Erro!', 'makeRegistry' + error));
   dispatch(getPreviousRegistry());
 };
 
@@ -200,10 +198,9 @@ export const editDay = params => dispatch => {
   // REQUEST
   Database.ref(`${uid}/history/${day}`).set(registryArray)
   .then(() => {
-      console.log('editDay', registryArray)
       dispatch(getPreviousRegistry());
     })
-    .catch(error => console.log('editDay', error));
+    .catch(error => Alert.alert('Erro!', 'editDay' + error));
   // dispatch(getPreviousRegistry());
 };
 
@@ -229,7 +226,7 @@ export const getPreviousRegistry = () => dispatch => {
         },
       })
     })
-    .catch(error => console.log('getPreviousRegistry', error));
+    .catch(error => Alert.alert('Erro!', 'getPreviousRegistry' + error));
 };
 
 // CLOCK

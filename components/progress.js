@@ -104,7 +104,6 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   const todaysLunch = Number(lunch ? lunch : moment.duration(profile.lunch, 'm').asHours());
   // CALC PERCENTS OF THIS DURATIONS
   const percent = calcTime(day, { lunch, ...rest }).map(data => (data * 100 / (todaysJourney + todaysLunch)));
-  console.log(todaysLunch + todaysJourney)
   // RETURN MINI PROGRESS BAR
   if (mini) return (
     <Outside mini>
