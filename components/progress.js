@@ -95,10 +95,16 @@ const calcTime = (today, duration) => {
 
 const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
 
-const Progress = ({ registry: { history, days, profile: { journey } }, day, mini }) => {
+const Progress = ({ registry: { history, days, profile }, day, mini }) => {
+  // GET A DAY OR TODAY
   if (!day) day = days.length ? history[days[0]] : [];
-  const { total, ...rest } = calcDuration(day);
-  const percent = calcTime(day, {...rest}).map(data => (data * 100 / (total > journey ? total : journey)));
+  // CALC DURATIONS WORK AND LANCH
+  const { total, lunch, ...rest } = calcDuration(day);
+  const todaysJourney = total > profile.journey ? total : profile.journey;
+  const todaysLunch = lunch ? lunch : moment.duration(profile.lunch, 'm').asHours();
+  // CALC PERCENTS OF THIS DURATIONS
+  const percent = calcTime(day, { lunch, ...rest }).map(data => (data * 100 / (todaysJourney + todaysLunch)));
+  // RETURN MINI PROGRESS BAR
   if (mini) return (
     <Outside mini>
       {
@@ -108,6 +114,7 @@ const Progress = ({ registry: { history, days, profile: { journey } }, day, mini
       }
     </Outside>
   );
+  // OR RETURN COMPLETE PROGRESS BAR
   const left = percent.reduce(( acc, cur ) => ( acc + cur), 0);
   return (
     <Row>

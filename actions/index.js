@@ -1,8 +1,9 @@
+import { Permissions, Notifications } from 'expo';
 import { Alert } from 'react-native';
 import firebase from 'firebase';
 import moment from 'moment';
 
-import { LOG_IN, LOG_OUT, REGISTRY, CLOCK } from './types';
+import { LOG_IN, LOG_OUT, REGISTRY, CLOCK, NOTIFICATION_TOKEN, NOTIFICATION_SEND } from './types';
 import Firebase from '../firebase.config';
 import { getPosition } from '../utils';
 
@@ -11,6 +12,47 @@ const Google = new firebase.auth.GoogleAuthProvider();
 const Database = Firebase.database();
 const Auth = Firebase.auth();
 Auth.languageCode = 'pt-BR';
+
+// NOTIFICATIONS
+export const registerForPushNotifications = () => async dispatch => {
+  const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  let finalStatus = existingStatus;
+
+  if (existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') return console.log('status', finalStatus);
+
+  const token = await Notifications.getExpoPushTokenAsync();
+  this.subscription = Notifications.addListener(this.handleNotification);
+  dispatch({
+    type: NOTIFICATION_TOKEN,
+    payload: token,
+  });
+};
+
+export const sendPushNotification = ({ token, title, body }) => async dispatch => {
+  return fetch('https://exp.host/--/api/v2/push/send', {
+    body: JSON.stringify({
+      data: { message: `${title} - ${body}` },
+      title: title,
+      body: body,
+      to: token,
+    }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
+  }).then(
+    dispatch({
+      type: NOTIFICATION_SEND,
+      // payload: {}
+    })
+  );
+};
+
+
 
 // AUTH
 export const signInWithEmailAndPassword = params => dispatch => {

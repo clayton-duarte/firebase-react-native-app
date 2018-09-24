@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { verifyAuthentication, internalClock } from '../actions';
+import { verifyAuthentication, internalClock, registerForPushNotifications } from '../actions';
 import RegisterScreen from './unlogged/register';
 import RegistryScreen from './logged/registry';
 import ProfileScreen from './logged/profile';
@@ -57,15 +57,18 @@ class Auth extends Component {
     this.state = {
       loading: true,
     };
+    // AUTHENTICATION
     this.verifyAuthentication = async () => {
       const stopLoading = () => this.setState({ loading: false });
       this.props.verifyAuthentication(stopLoading);
     };
+    // INTERNAL CLOCK
     this.startClock = () => this.setState({ clock: setInterval(this.props.internalClock, 60000)});
     this.stopClock = () => clearInterval(this.state.clock);
   }
 
   componentDidMount() {
+    this.props.registerForPushNotifications();
     this.verifyAuthentication();
     this.startClock();
   }
@@ -76,8 +79,8 @@ class Auth extends Component {
 
   render() {
     // SETUP
-    const { registry: { history, loadingRegistry }, auth: { user } } = this.props;
-    const { loading } = this.state;
+    const { registry: { loadingRegistry }, auth: { user } } = this.props;
+    const { loading, token } = this.state;
     // RETURNS
     if (loading) return (<View><Loader/></View>);
     if (user) {
@@ -88,5 +91,5 @@ class Auth extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ verifyAuthentication, internalClock }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ verifyAuthentication, internalClock, registerForPushNotifications }, dispatch);
 export default connect(state => state, mapDispatchToProps)(Auth);

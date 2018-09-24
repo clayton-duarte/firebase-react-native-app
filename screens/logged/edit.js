@@ -37,11 +37,11 @@ class EditScreen extends Component {
     this.state = {};
     this.handleSubmit = () => {
       // ALL THINGS ARE SAVED ON CHANGE
-      this.props.navigation.navigate('Registry');
+      this.props.navigation.goBack();
     };
     this.setCurrentDay = () => {
       const day = this.props.navigation.getParam('day');
-      if (!day) return this.props.navigation.navigate('Registry');
+      if (!day) return this.props.navigation.goBack();
       const registry = this.props.registry.history[day];
       this.setState({ registry, day });
     };

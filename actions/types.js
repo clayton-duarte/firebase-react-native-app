@@ -8,3 +8,7 @@ export const REGISTRY = 'REGISTRY';
 
 // CLOCK
 export const CLOCK = 'CLOCK';
+
+// NOTIFICATION
+export const NOTIFICATION_TOKEN = 'NOTIFICATION_TOKEN';
+export const NOTIFICATION_SEND = 'NOTIFICATION_SEND';

@@ -42,7 +42,7 @@ class EditScreen extends Component {
     this.handleSubmit = () => {
       const { displayName, journey, lunch, cash } = this.state;
       this.props.updateProfile({ displayName, journey, lunch, cash });
-      this.props.navigation.navigate('Registry');
+      this.props.navigation.goBack();
     };
     this.setCurrentUserData = () => {
       const { journey, lunch, cash } = this.props.registry.profile;
