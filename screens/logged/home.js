@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import { insertNewRegistry, sendPushNotification } from '../../actions';
 import Table from '../../components/registryTable';
-import { insertNewRegistry } from '../../actions';
 import Progress from '../../components/progress';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
@@ -36,6 +36,11 @@ class Today extends Component {
     };
   }
 
+  componentDidMount() {
+    const { token } = this.props.notification;
+    this.props.sendPushNotification({ token, title: 'test', body: 'notification from redux' });
+  }
+
   render() {
     const { navigation: { navigate } } = this.props;
     return(
@@ -65,5 +70,5 @@ class Today extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ insertNewRegistry }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ insertNewRegistry, sendPushNotification }, dispatch);
 export default connect(state => state, mapDispatchToProps)(Today);

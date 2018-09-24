@@ -91,5 +91,7 @@ class Auth extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ verifyAuthentication, internalClock, registerForPushNotifications }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({
+  verifyAuthentication, internalClock, registerForPushNotifications
+}, dispatch);
 export default connect(state => state, mapDispatchToProps)(Auth);

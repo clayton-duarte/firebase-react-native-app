@@ -1,5 +1,5 @@
 import { Permissions, Notifications } from 'expo';
-import { Alert } from 'react-native';
+import { Alert, Vibration } from 'react-native';
 import firebase from 'firebase';
 import moment from 'moment';
 
@@ -13,6 +13,9 @@ const Database = Firebase.database();
 const Auth = Firebase.auth();
 Auth.languageCode = 'pt-BR';
 
+// VIBRATION PATTERN
+const vibrate = () => Vibration.vibrate([500, 500, 500])
+
 // NOTIFICATIONS
 export const registerForPushNotifications = () => async dispatch => {
   const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
@@ -25,10 +28,10 @@ export const registerForPushNotifications = () => async dispatch => {
   if (finalStatus !== 'granted') return console.log('status', finalStatus);
 
   const token = await Notifications.getExpoPushTokenAsync();
-  this.subscription = Notifications.addListener(this.handleNotification);
+  // this.subscription = Notifications.addListener(this.handleNotification);
   dispatch({
     type: NOTIFICATION_TOKEN,
-    payload: token,
+    payload: { token },
   });
 };
 
@@ -160,6 +163,7 @@ export const makeRegistry = params => dispatch => {
   // REQUEST
   Database.ref(`${uid}/history/${day}/${index}`).set(position)
     .then(() => {
+      vibrate();
       dispatch(getPreviousRegistry());
     })
     .catch(error => console.log('makeRegistry', error));
@@ -194,12 +198,13 @@ export const editDay = params => dispatch => {
   const { uid } = Auth.currentUser;
   const registryArray = Object.values(registry);
   // REQUEST
-  Database.ref(`${uid}/${day}`).set(registryArray)
-    .then(() => {
+  Database.ref(`${uid}/history/${day}`).set(registryArray)
+  .then(() => {
+      console.log('editDay', registryArray)
       dispatch(getPreviousRegistry());
     })
     .catch(error => console.log('editDay', error));
-  dispatch(getPreviousRegistry());
+  // dispatch(getPreviousRegistry());
 };
 
 export const getPreviousRegistry = () => dispatch => {

@@ -128,8 +128,8 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
         }
       </Outside>
       <HomeIcon1 name='home'/>
-      { (left > 1 && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
       <HomeIcon2 name='home'/>
+      { (left > 1 && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
     </Row>
   );
 }
