@@ -34,11 +34,19 @@ class Today extends Component {
       const defaultJourney = profile.journey;
       return moment(today[0].timestamp).add((defaultJourney + todaysLunch), 'hours').format('H:mm[h]');
     };
+    this.notifyGoHome = () => {
+      const { notification: { token }, registry: { profile: { journey } } } = this.props;
+      this.props.sendPushNotification({
+        token,
+        title: 'FIM DO EXPEDIENTE',
+        body: `Você já trabalhou as suas ${journey} horas diárias. Hora de ir para casa.`
+      });
+    }
   }
-
-  componentDidMount() {
-    const { token } = this.props.notification;
-    this.props.sendPushNotification({ token, title: 'test', body: 'notification from redux' });
+  
+  componentDidUpdate() {
+    const { now } = this.props;
+    if (now && this.goHome() === moment(now, 'x').format('H:mm[h]')) this.notifyGoHome();
   }
 
   render() {
