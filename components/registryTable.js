@@ -13,6 +13,8 @@ import Day from './day';
 import Row from './row';
 import Col from './col';
 
+const View = styled.View``;
+
 const StyledIcon = styled(Icon)`
 color:  ${({ length, index, total, theme }) => setColor({ length, index, total, theme })};
 font-size: 12px;
@@ -34,33 +36,38 @@ const changeIcon = index => ((index % 2) ? 'log-out' : 'log-in');
 
 const Table = ({
   registry: { days, history }, navigation: { navigate }, depth
-}) => (
-  days.length ?
-  days.map((day, index) => (
-    (index < depth)
-    ? (
-      <Col key={`registry-day-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
-        <Row>
-          <Day date flex={4}>{renderDay(day)}</Day>
-          <Day date flex={1}>TOTAL</Day>
-        </Row>
-        { depth > 1 ? <Progress mini day={history[day]}/> : null }
-        <Row>
-          <Wrapper>
-            {history[day].map((position, index) => (
-              <Hour flex={.25} key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
-                <StyledIcon length={(history[day].length)} name={changeIcon(index)} index={index} />
-                {moment(position.timestamp).format('H:mm')}
-              </Hour>
-            ))}
-          </Wrapper>
-          <Hour total><StyledIcon total name='time'/>{calcDuration(history[day]).total}</Hour>
-        </Row>
-      </Col>
-    ) : null
-  ))
-  : <Text label center>NENHUM REGISTRO PARA MOSTRAR</Text>
-);
+}) => {
+  return (
+    days.length ? (
+      days.map((day, index) => {
+        const dayTotal = calcDuration(history[day]).total;
+        return (
+          (index < depth)
+          ? (
+            <Col key={`registry-day-list-${depth}-${index}`} onPress={() => navigate('Edit', { day })}>
+              <Row>
+                <Day date flex={4}>{renderDay(day)}</Day>
+                <Day date flex={1}>TOTAL</Day>
+              </Row>
+              { depth > 1 ? <Progress mini day={history[day]}/> : null }
+              <Row>
+                <Wrapper>
+                  {history[day].map((position, index) => (
+                    <Hour flex={.25} key={`registry-hour-list-${depth}-${index}`} index={index} length={(history[day].length)}>
+                      <StyledIcon length={(history[day].length)} name={changeIcon(index)} index={index} />
+                      {moment(position.timestamp).format('H:mm')}
+                    </Hour>
+                  ))}
+                </Wrapper>
+                <Hour total><StyledIcon total name='time'/>{dayTotal}</Hour>
+              </Row>
+            </Col>
+          ) : null
+        )
+      })
+    ) : <Text label center>NENHUM REGISTRO PARA MOSTRAR</Text>
+  );
+}
 
 Table.defaultProps = {
   depth: 31,
