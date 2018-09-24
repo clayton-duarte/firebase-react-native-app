@@ -29,6 +29,7 @@ margin: 0;
 
 const FloatIcon = styled(HomeIcon)`
 left: ${({ size }) => size}%;
+margin-left: -6px;
 `;
 
 const HomeIcon1 = styled(HomeIcon)`
@@ -111,7 +112,7 @@ const Progress = ({ registry: { history, days, profile: { journey } } }) => {
         }
       </Outside>
       <HomeIcon1 name='home'/>
-      { (left && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
+      { (left > 1 && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
       <HomeIcon2 name='home'/>
     </Row>
   );

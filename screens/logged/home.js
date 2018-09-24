@@ -29,9 +29,11 @@ class Today extends Component {
       const today = history[days[0]];
       if (!today) return '--';
       const { lunch } = calcDuration(today);
-      const defaultLunch = moment.duration(profile.lunch, 'minutes').asHours();
-      return moment(today[0].timestamp).add(9, 'hours').subtract((defaultLunch - lunch), 'hours').format('H:mm[h]');
-    }
+      const defaultLunch = moment.duration(profile.lunch, 'm').asHours();
+      const todaysLunch = lunch ? lunch : defaultLunch;
+      const defaultJourney = profile.journey;
+      return moment(today[0].timestamp).add((defaultJourney + todaysLunch), 'hours').format('H:mm[h]');
+    };
   }
 
   render() {

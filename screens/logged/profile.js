@@ -47,7 +47,7 @@ class EditScreen extends Component {
     this.setCurrentUserData = () => {
       const { journey, lunch, cash } = this.props.registry.profile;
       const { displayName } = this.props.auth.user;
-      this.setState({ displayName, journey, lunch, cash, loading: false });
+      this.setState({ displayName, journey, lunch, cash, cashMonth: Number(cash * 168).toFixed(2), loading: false });
     }
   }
    
@@ -81,7 +81,7 @@ class EditScreen extends Component {
                 onBlur={() => this.setState(({ cashMonth }) => ({ cash: Number(cashMonth / 168).toFixed(2), cashMonth: Number(cashMonth).toFixed(2) }))}
               />
             </Col>
-            <StyledIcon name='swap' />
+            <StyledIcon style={{ marginBottom: -24 }} name='swap' />
             <Col>
               <Text label><StyledIcon name='timer' />{' '}VALOR HORA:</Text>
               <Input

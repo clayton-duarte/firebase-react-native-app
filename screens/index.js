@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { verifyAuthentication } from '../actions';
+import { verifyAuthentication, internalClock } from '../actions';
 import RegisterScreen from './unlogged/register';
 import RegistryScreen from './logged/registry';
 import ProfileScreen from './logged/profile';
@@ -56,15 +56,22 @@ class Auth extends Component {
     super(props);
     this.state = {
       loading: true,
-    }
+    };
     this.verifyAuthentication = async () => {
       const stopLoading = () => this.setState({ loading: false });
       this.props.verifyAuthentication(stopLoading);
-    }
+    };
+    this.startClock = () => this.setState({ clock: setInterval(this.props.internalClock, 60000)});
+    this.stopClock = () => clearInterval(this.state.clock);
   }
 
   componentDidMount() {
     this.verifyAuthentication();
+    this.startClock();
+  }
+
+  componentWillUnmount() {
+    this.stopClock();
   }
 
   render() {
@@ -81,5 +88,5 @@ class Auth extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({ verifyAuthentication }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ verifyAuthentication, internalClock }, dispatch);
 export default connect(state => state, mapDispatchToProps)(Auth);

@@ -2,7 +2,7 @@ import { Alert } from 'react-native';
 import firebase from 'firebase';
 import moment from 'moment';
 
-import { LOG_IN, LOG_OUT, REGISTRY } from './types';
+import { LOG_IN, LOG_OUT, REGISTRY, CLOCK } from './types';
 import Firebase from '../firebase.config';
 import { getPosition } from '../utils';
 
@@ -183,4 +183,11 @@ export const getPreviousRegistry = () => dispatch => {
       })
     })
     .catch(error => console.log('getPreviousRegistry', error));
+};
+
+// CLOCK
+export const internalClock = () => dispatch => {
+  dispatch({
+    type: CLOCK,
+  });
 };
