@@ -24,10 +24,11 @@ class Today extends Component {
       this.props.insertNewRegistry({ registry })
     };
     this.goHome = () => {
-      const { registry: { history, days } } = this.props;
+      const { registry: { history, days, profile } } = this.props;
       const today = history[days[0]];
       const { lunch } = calcDuration(today);
-      return today[0] ? moment(today[0].timestamp).add(9, 'hours').subtract((1 - lunch), 'hours').format('H:mm[h]') : '--';
+      const defaultLunch = moment.duration(profile.lunch, 'minutes').asHours();
+      return today[0] ? moment(today[0].timestamp).add(9, 'hours').subtract((defaultLunch - lunch), 'hours').format('H:mm[h]') : '--';
     }
   }
 

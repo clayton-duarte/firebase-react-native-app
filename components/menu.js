@@ -62,7 +62,7 @@ const Menu = ({
       <MenuItem onPress={() => navigate('Registry')}>registros</MenuItem>
       {/* <MenuItem onPress={() => navigate('History')}>histórico</MenuItem> */}
       <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
-      <MenuItem onPress={signOut}>logout</MenuItem>
+      {/* <MenuItem onPress={signOut}>logout</MenuItem> */}
     </Wrapper>
     <Wrapper>
       <Text label center>desenvolvido por{'\n'}CLAYTON DUARTE</Text>

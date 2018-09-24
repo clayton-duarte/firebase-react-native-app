@@ -95,10 +95,10 @@ const calcTime = (today, duration) => {
 
 const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
 
-const Logo = ({ registry: { history, days } }) => {
+const Logo = ({ registry: { history, days, profile: { journey } } }) => {
   const today = history[days[0]];
   const { total, ...rest } = calcDuration(today);
-  const percent = calcTime(today, {...rest}).map(data => (data * 100 / (total > 8 ? total : 8)));
+  const percent = calcTime(today, {...rest}).map(data => (data * 100 / (total > journey ? total : journey)));
   const left = percent.reduce(( acc, cur ) => ( acc + cur), 0);
   console.log(percent);
   return (

@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import theme from '../theme';
+
 const Touch = styled.TouchableOpacity`
-background-color: ${({ theme, working }) => working ? theme.action : theme.warn};
+background-color: ${({ color }) => color};
 ${({ theme }) => theme.shadow};
 justify-content: center;
 border-radius: 100px;
@@ -16,8 +18,8 @@ width: 200px;
 `;
 
 const Time = styled.Text`
-color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.text_shadow};
+color: ${({ color }) => color};
 font-family: sans-serif;
 letter-spacing: -2px;
 text-align: center;
@@ -26,7 +28,7 @@ font-size: 40px;
 `;
 
 const Text = styled.Text`
-color: ${({ theme }) => theme.primary};
+color: ${({ theme }) => theme.secondary};
 font-family: sans-serif;
 letter-spacing: 2px;
 text-align: center;
@@ -36,13 +38,27 @@ font-size: 12px;
 class Clock extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
-    this.working = () => {
+    this.state = {
+      status: {
+        textColor: theme.secondary,
+        color: theme.bg_primary,
+        text: 'STATUS',
+      }
+    }
+    this.clockStatus = () => {
       const { history, days } = this.props.registry;
       const today = history[days[0]];
-      return (today.length % 2)
-    }
-    this.updateClock = () => this.setState(prevState => ({ tic: !prevState.tic, working: this.working() }));
+      switch (today.length) {
+        case 1:
+        case 3:
+          return { color: theme.action, text: 'TRABALHANDO', textColor: theme.bg_primary };
+        case 2:
+          return { color: theme.warn, text: 'ALMOÇANDO', textColor: theme.bg_primary};
+        default:
+          return { color: theme.bg_primary, text: 'DESCANSANDO', textColor: theme.secondary};
+      }
+    };
+    this.updateClock = () => this.setState(prevState => ({ tic: !prevState.tic, status: this.clockStatus() }));
     this.startClock = () => this.setState({ clock: setInterval(() => this.updateClock(), 1000)});
     this.stopClock = () => clearInterval(this.state.clock);
   }
@@ -56,11 +72,11 @@ class Clock extends Component {
   }
 
   render() {
-    const { working } = this.state;
+    const { status } = this.state;
     return (
-      <Touch {...this.props} working={working}>
-        <Text>{working ? 'TRABALHANDO' : 'DESCANSANDO'}</Text>
-        <Time>{moment().format(`H:mm:ss`)}</Time>
+      <Touch {...this.props} color={status.color}>
+        <Text>{status.text}</Text>
+        <Time color={status.textColor}>{moment().format(`H:mm:ss`)}</Time>
         <Text>MARCAR PONTO</Text>
       </Touch>
     );

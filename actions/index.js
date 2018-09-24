@@ -72,23 +72,21 @@ export const signOut = () => dispatch => {
 };
 
 export const updateProfile = params => dispatch => {
-  // POSSIBLE FIELDS
-  // displayName (OK!)
-  // email (use updateEmail)
-  // phoneNumber (do not edit)
-  // photoURL (OK!)
-  // providerId (do not edit)
-  // uid (do not edit)
-  // REQUEST
-  Auth.currentUser.updateProfile(params)
+  const { displayName, ...profile } = params;
+  // UPDATE AUTH
+  Auth.currentUser.updateProfile({ displayName })
     .then(() => {
-      const user = Auth.currentUser;
+      const { uid } = user = Auth.currentUser;
+      // UPDATE PROFILE
+      Database.ref(`${uid}/profile`).set({ ...profile })
+      .then(() => {
+        dispatch(getPreviousRegistry());
+      })
+      .catch(error => console.log(error));
       console.log('USER:', user)
       dispatch({
         type: LOG_IN,
-        payload: {
-          user,
-        },
+        payload: { user },
       });
     })
     .catch(error => console.log(error));
@@ -100,12 +98,12 @@ export const makeRegistry = params => dispatch => {
   const { day, index, position } = params;
   const { uid } = Auth.currentUser;
   // REQUEST
-  Database.ref(`${uid}/${day}/${index}`).set(position)
+  Database.ref(`${uid}/history/${day}/${index}`).set(position)
     .then(() => {
       dispatch(getPreviousRegistry());
     })
     .catch(error => console.log(error));
-  dispatch(getPreviousRegistry());
+  // dispatch(getPreviousRegistry());
 };
 
 export const insertNewRegistry = params => async dispatch => {
@@ -149,7 +147,7 @@ export const getPreviousRegistry = () => dispatch => {
   // REQUEST
   Database.ref(`${uid}`).once('value')
     .then((snapshot) => {
-      const history = snapshot.val() || {};
+      const { profile, history } = snapshot.val() || {};
       const hours = Object.values(history);
       const days = Object.keys(history);
       hours.reverse();
@@ -157,6 +155,7 @@ export const getPreviousRegistry = () => dispatch => {
       dispatch({
         type: REGISTRY,
         payload: {
+          profile,
           history,
           hours,
           days,

@@ -4,6 +4,11 @@ const initialState = {
   history: {
     loading: true,
   },
+  profile: {
+    journey: 8,
+    lunch: 60,
+    cash: 0,
+  },
   hours: [],
   days: [],
 };
