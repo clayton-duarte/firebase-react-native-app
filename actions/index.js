@@ -73,7 +73,10 @@ export const signInWithEmailAndPassword = params => dispatch => {
         },
       });
     })
-    .catch(error => Alert.alert('Erro!', 'signInWithEmailAndPassword' + error));
+    .catch(error => {
+      Alert.alert('Erro!', 'signInWithEmailAndPassword' + error);
+      dispatch(signOut());
+    });
 };
 
 export const verifyAuthentication = callback => dispatch => {
@@ -91,6 +94,7 @@ export const verifyAuthentication = callback => dispatch => {
     callback();
   }, (error) => {
     Alert.alert('Erro!', 'verifyAuthentication' + error);
+    dispatch(signOut());
     callback();
   });
 };
@@ -145,7 +149,10 @@ export const signInWithProvider = provider => dispatch => {
         type: LOG_IN,
         payload: { user },
       });
-  }).catch(error => Alert.alert('Erro!', 'signInWithProvider' + error));
+  }).catch(error => {
+    Alert.alert('Erro!', 'signInWithProvider' + error);
+    dispatch(signOut());
+  });
 };
 
 export const signInWithGoogle = () => dispatch => {
