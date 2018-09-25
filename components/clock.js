@@ -20,7 +20,6 @@ width: 200px;
 const Time = styled.Text`
 ${({ theme }) => theme.text_shadow};
 color: ${({ color }) => color};
-font-family: sans-serif;
 letter-spacing: -2px;
 text-align: center;
 font-weight: bold;
@@ -29,7 +28,6 @@ font-size: 40px;
 
 const Text = styled.Text`
 color: ${({ theme }) => theme.secondary};
-font-family: sans-serif;
 letter-spacing: 2px;
 text-align: center;
 font-weight: bold;

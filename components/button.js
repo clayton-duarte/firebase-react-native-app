@@ -13,7 +13,6 @@ margin: 4px;
 const Text = styled.Text`
 color: ${({ theme, secondary, link }) => (secondary || link) ? theme.action : theme.bg_primary};
 ${({ theme, secondary, link }) => (secondary || link) ? '' : theme.text_shadow};
-font-family: sans-serif;
 letter-spacing: 2px;
 text-align: center;
 font-weight: bold;

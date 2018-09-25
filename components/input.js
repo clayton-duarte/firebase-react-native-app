@@ -1,7 +1,7 @@
-import { TimePickerAndroid } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import styled from 'styled-components/native';
+import React, { Component } from 'react';
 import moment from 'moment';
-import React from 'react';
 
 import theme from '../theme';
 
@@ -39,23 +39,37 @@ letter-spacing: 0.5px;
 font-size: 16px;
 `;
 
-const openTimePicker = async (onChangeText, value, day) => {
-  const initialHour = Number(moment(value).format('H'));
-  const initialMinute = Number(moment(value).format('mm'));
-  const { action, hour, minute } = await TimePickerAndroid.open({ hour: initialHour, minute: initialMinute, is24Hour: false });
-  if (action !== TimePickerAndroid.dismissedAction) {
-    const format = moment(`${day} ${hour}:${minute}`, 'YYYYMMDD H:mm').format();
-    const timestamp = moment(format).format('x');
-    return onChangeText(timestamp);
+class Picker extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.value,
+    };
+    this.openTimePicker = () => this.setState({ visible: true });
+    this.onCancel = () => this.setState({ visible: false });
+    this.onConfirm = time => {
+      const value = moment(time).format('H:mm');
+      const timestamp = moment(`${this.props.day} ${value}`, 'YYYYMMDD H:mm').format('x');
+      this.props.onChangeText(timestamp);
+      this.setState({ visible: false, value });
+    }
   }
-  return;
-}
 
-const Picker = ({ onChangeText, value, day, ...rest }) => (
-  <Touch onPress={() => openTimePicker(onChangeText, value, day)} {...rest}>
-    <Text isPlaceholder={value}>{value}</Text>
-  </Touch>
-);
+  render() {
+    const { visible, value } = this.state;
+    return (
+      <Touch onPress={this.openTimePicker}>
+        <Text isPlaceholder={value}>{value}</Text>
+        <DateTimePicker
+          onConfirm={this.onConfirm}
+          onCancel={this.onCancel}
+          isVisible={visible}
+          mode='time'
+        />
+      </Touch>
+    );
+  }
+}
 
 // COMPONENT ITSELF
 export default ({ type, ...rest }) => (

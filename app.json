@@ -25,7 +25,8 @@
       "package": "br.meu.ponto.virtual"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "br.meu.ponto.virtual"
     }
   }
 }

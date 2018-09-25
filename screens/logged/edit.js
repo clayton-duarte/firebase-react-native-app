@@ -101,7 +101,7 @@ class EditScreen extends Component {
                 <StyledInput
                   day={day}
                   type='time'
-                  value={moment(registry[index].timestamp).format('h:mm a')}
+                  value={moment(registry[index].timestamp).format('H:mm')}
                   onChangeText={timestamp => this.updateDayRegistry(timestamp, index)}
                 />
                 <NbButton transparent onPress={() => this.removeRegistry(index)}>
