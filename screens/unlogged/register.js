@@ -11,14 +11,11 @@ import Slider from '../../components/slider';
 import Input from '../../components/input';
 import Text from '../../components/text';
 import View from '../../components/view';
+import Card from '../../components/card';
+import Row from '../../components/row';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
-font-size: 12px;
-`;
-
-const Value = styled.Text`
-color: ${({ theme }) => theme.primary};
 font-size: 12px;
 `;
 
@@ -65,20 +62,30 @@ class LoadScreen extends Component {
             placeholder='******'
             onChangeText={password => this.setState({ password })}
           />
-          <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA: <Value>{journey}h</Value></Text>
+          <Row>
+            <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA:</Text>
+            <Card>
+              <Text label>{this.state.journey}h</Text>
+            </Card>
+          </Row>
           <Slider
             step={1}
-            value={journey}
             minimumValue={4}
             maximumValue={12}
+            value={this.state.journey}
             onValueChange={journey => this.setState({ journey })}
           />
-          <Text label><StyledIcon name='hand' />{' '}ALMOÇO/REPOUSO: <Value>{lunch}min</Value></Text>
+          <Row>
+            <Text label><StyledIcon name='briefcase' />{' '}ALMOÇO/REPOUSO:</Text>
+            <Card>
+              <Text label>{this.state.lunch}min</Text>
+            </Card>
+          </Row>
           <Slider
             step={15}
-            value={lunch}
             minimumValue={0}
             maximumValue={60}
+            value={this.state.lunch}
             onValueChange={lunch => this.setState({ lunch })}
           />
         </Wrapper>

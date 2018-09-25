@@ -72,22 +72,25 @@ height: 24px;
 `;
 
 // TIME FUNCTIONS
-const calcTime = (today, duration) => {
+const calcTime = (day, duration) => {
   // VERIFY
-  if (!today.length) return [];
+  if (!day.length) return [];
   // CALC
-  const length = today.length;
+  const length = day.length;
   const { morning, lunch, afternoon } = duration;
-  const lastRegistry = today[(length - 1)].timestamp;
+  const lastRegistry = day[(length - 1)].timestamp;
   const last = moment(lastRegistry);
   const diff = moment.duration(moment().diff(last)).asHours();
   // RETURN
   switch (length) {
     case 1:
+      if (diff > 8) return [];
       return [ diff ];
     case 2:
+      if (diff > 8) return [ morning ];
       return [ morning, diff ];
     case 3:
+      if (diff > 8) return [ morning ];
       return [ morning, lunch, diff ];
     case 4:
       return [ morning, lunch, afternoon ];  

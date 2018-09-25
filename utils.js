@@ -11,7 +11,9 @@ export const unFormatNumber = number => Number(number.toString().replace(',', '.
 export const formatNumber = number => Number(unFormatNumber(number)).toFixed(2).toString().replace('.', ',');
 
 export const calcDuration = dayRegistry => {
-  if (!dayRegistry) return {};
+  // VERIFY
+  const length = dayRegistry.length;
+  if (!dayRegistry || !length) return {};
   const timestamps = dayRegistry.map(position => position.timestamp);
   // SETUP DATA
   const registry1 = moment(timestamps[0]);
@@ -24,11 +26,15 @@ export const calcDuration = dayRegistry => {
   const lunch = moment.duration(registry3.diff(registry2)).asHours();
   const total = (morning + afternoon);
   // RETURN
-  return {
-    afternoon,
-    morning,
-    total,
-    lunch,
+  switch (length) {
+    case 2:
+      return { morning, total };
+    case 3:
+      return { morning, lunch, total };
+    case 4:
+      return { morning, lunch, afternoon, total };  
+    default:
+      return { total };
   }
 }
 

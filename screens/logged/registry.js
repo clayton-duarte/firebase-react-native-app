@@ -8,18 +8,10 @@ import Table from '../../components/registryTable';
 import Wrapper from '../../components/wrapper';
 import Header from '../../components/header';
 import Button from '../../components/button';
+import Card from '../../components/card';
 import List from '../../components/list';
 import Text from '../../components/text';
 import View from '../../components/view';
-
-const Card = styled.View`
-background-color: ${({ theme }) => theme.bg_primary};
-border-radius: ${({ theme }) => theme.radius};
-${({ theme }) => theme.shadow};
-justify-content: space-between;
-flex-direction: row;
-margin: 4px;
-`;
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
@@ -30,6 +22,7 @@ class LoadScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.toogleShowCash = () => this.setState(prevState => ({ showCash: !prevState.showCash }));
     this.calcTotal = () => {
       const { history, days } = this.props.registry;
       if (!days.length) return 0;
@@ -50,14 +43,14 @@ class LoadScreen extends Component {
         <List>
           <Wrapper>
             <Text title>ÚLTIMOS 30 DIAS</Text>
-            <Card>
+            <Card onPress={this.toogleShowCash}>
               <Text label>
                 <StyledIcon name='timer' />
                 {' '}
                 {formatNumber(this.calcTotal())}h
               </Text>
               <Text label>
-                R$ {formatNumber(this.calcTotal() * cash)}
+                R$ {this.state.showCash ? formatNumber(this.calcTotal() * cash) : <StyledIcon name='eye' />}
                 {' '}
                 <StyledIcon name='cash' />
               </Text>

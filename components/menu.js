@@ -1,10 +1,9 @@
 import styled from 'styled-components/native';
-import { bindActionCreators } from 'redux';
 import { Icon, Button } from 'native-base';
+import { Linking } from 'react-native';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { signOut } from '../actions';
 import View from './view';
 import Text from './text';
 import Row from './row';
@@ -24,6 +23,11 @@ ${({ theme }) => theme.text_shadow};
 font-size: 20px;
 `;
 
+const ButtonIcon = styled(Icon)`
+color: ${({ theme }) => theme.secondary};
+font-size: 12px;
+`;
+
 const Item = styled.TouchableOpacity`
 background-color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.shadow};
@@ -40,6 +44,10 @@ font-weight: bold;
 font-size: 12px;
 `;
 
+const StyledButton = styled(Button)`
+margin-left: 12px;
+`;
+
 const MenuItem = ({ children, ...rest }) => (
   <Item {...rest}>
     <ItemText>{children.toUpperCase()}</ItemText>
@@ -47,9 +55,10 @@ const MenuItem = ({ children, ...rest }) => (
 );
 
 const Menu = ({ 
-  navigation: { navigate, closeDrawer }, auth: { user: { displayName } }, signOut
+  navigation: { navigate, closeDrawer }, auth: { user: { displayName } }
 }) => (
   <View>
+    {/* FAKE HEADER */}
     <Wrapper>
       <StyledRow>
         <Button transparent onPress={closeDrawer}>
@@ -58,17 +67,21 @@ const Menu = ({
         <Text label>OLÁ {displayName ? displayName.toUpperCase() : null}</Text>
         <Wrapper/>
       </StyledRow>
+    </Wrapper>
+    {/* MENU */}
+    <Wrapper>
       <MenuItem onPress={() => navigate('Today')}>hoje</MenuItem>
       <MenuItem onPress={() => navigate('Registry')}>registros</MenuItem>
       {/* <MenuItem onPress={() => navigate('History')}>histórico</MenuItem> */}
       <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
-      {/* <MenuItem onPress={signOut}>logout</MenuItem> */}
     </Wrapper>
+    {/* CREDITS */}
     <Wrapper>
-      <Text label center>desenvolvido por{'\n'}CLAYTON DUARTE</Text>
+      <StyledButton transparent onPress={() => Linking.openURL('https://www.linkedin.com/in/clayton-duarte-95b381121/')}>
+        <Text label center>by <ButtonIcon name='logo-linkedin' /> clayton duarte</Text>
+      </StyledButton>
     </Wrapper>
   </View>
 );
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signOut }, dispatch);
-export default connect(state => state, mapDispatchToProps)(Menu);
+export default connect(state => state)(Menu);

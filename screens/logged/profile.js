@@ -13,15 +13,11 @@ import Loader from '../../components/loader';
 import Input from '../../components/input';
 import Text from '../../components/text';
 import View from '../../components/view';
+import Card from '../../components/card';
 import Row from '../../components/row';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
-font-size: 12px;
-`;
-
-const Value = styled.Text`
-color: ${({ theme }) => theme.primary};
 font-size: 12px;
 `;
 
@@ -78,9 +74,8 @@ class EditScreen extends Component {
           />
           <Row>
             <Col>
-              <Text label><StyledIcon name='cash' />{' '}VALOR MÊS:</Text>
+              <Text label><StyledIcon name='cash' />{' '}MÊS:</Text>
               <Row>
-                <Input value='R$' editable={false} />
                 <Col>
                   <Input
                     placeholder='R$ 0,00'
@@ -92,11 +87,12 @@ class EditScreen extends Component {
                 </Col>
               </Row>
             </Col>
-            <StyledIcon style={{ marginBottom: -24 }} name='swap' />
+            <StyledIcon style={{ marginTop: 26 }} name='swap' />
+            <Input value='R$' editable={false} style={{ marginTop: 26 }} />
+            <StyledIcon style={{ marginTop: 26 }} name='swap' />
             <Col>
-              <Text label><StyledIcon name='cash' />{' '}VALOR HORA:</Text>
+              <Text label><StyledIcon name='cash' />{' '}HORA:</Text>
               <Row>
-                <Input value='R$' editable={false} />
                 <Col>
                   <Input
                     placeholder='0,00'
@@ -111,22 +107,32 @@ class EditScreen extends Component {
           </Row>
         </Wrapper>
         <Wrapper>
-          <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA: <Value>{this.state.journey}h</Value></Text>
-            <Slider
-              step={1}
-              minimumValue={4}
-              maximumValue={12}
-              value={this.state.journey}
-              onValueChange={journey => this.setState({ journey })}
-            />
-            <Text label><StyledIcon name='hand' />{' '}ALMOÇO/REPOUSO: <Value>{this.state.lunch}min</Value></Text>
-            <Slider
-              step={15}
-              minimumValue={0}
-              maximumValue={60}
-              value={this.state.lunch}
-              onValueChange={lunch => this.setState({ lunch })}
-            />
+          <Row>
+            <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA:</Text>
+            <Card>
+              <Text label>{this.state.journey}h</Text>
+            </Card>
+          </Row>
+          <Slider
+            step={1}
+            minimumValue={4}
+            maximumValue={12}
+            value={this.state.journey}
+            onValueChange={journey => this.setState({ journey })}
+          />
+          <Row>
+            <Text label><StyledIcon name='briefcase' />{' '}ALMOÇO/REPOUSO:</Text>
+            <Card>
+              <Text label>{this.state.lunch}min</Text>
+            </Card>
+          </Row>
+          <Slider
+            step={15}
+            minimumValue={0}
+            maximumValue={60}
+            value={this.state.lunch}
+            onValueChange={lunch => this.setState({ lunch })}
+          />
         </Wrapper>
         <Wrapper>          
           <Button onPress={this.handleSubmit}>SALVAR DADOS</Button>
