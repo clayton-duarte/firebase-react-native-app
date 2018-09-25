@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { insertNewRegistry, sendPushNotification } from '../../actions';
+import TableHeader from '../../components/tableHeader';
 import Table from '../../components/registryTable';
 import Progress from '../../components/progress';
 import Wrapper from '../../components/wrapper';
@@ -25,14 +26,16 @@ class Today extends Component {
     };
     this.goHome = () => {
       const { registry: { history, days, profile } } = this.props;
-      if (!days.length) return '--';
+      if (!days.length) return { time: '--', fromNow: '--'};
       const today = history[days[0]];
-      if (!today) return '--';
+      if (!today) return { time: '--', fromNow: '--'};
       const { lunch } = calcDuration(today);
       const defaultLunch = moment.duration(profile.lunch, 'm').asHours();
       const todaysLunch = lunch ? lunch : defaultLunch;
       const defaultJourney = profile.journey;
-      return moment(today[0].timestamp).add((defaultJourney + todaysLunch), 'hours').format('H:mm[h]');
+      const time = moment(today[0].timestamp).add((defaultJourney + todaysLunch), 'hours').format('H:mm');
+      const fromNow = moment(time, 'H:mm').fromNow();
+      return { time, fromNow };
     };
     this.notifyGoHome = () => {
       const { notification: { token }, registry: { profile: { journey } } } = this.props;
@@ -46,7 +49,7 @@ class Today extends Component {
   
   componentDidUpdate() {
     const { now } = this.props;
-    if (now && this.goHome() === moment(now, 'x').format('H:mm[h]')) this.notifyGoHome();
+    if (now && this.goHome().time === moment(now, 'x').format('H:mm')) this.notifyGoHome();
   }
 
   render() {
@@ -63,12 +66,12 @@ class Today extends Component {
             <Progress />
             {/* MORE INFO */}
             <Text label center>
-              SAÍDA PREVISTA {this.goHome()}
+              SAÍDA {this.goHome().time} ({this.goHome().fromNow})
             </Text>
           </Wrapper>
           <Clock onPress={this.newRegistry}></Clock>
           <Wrapper>
-            <Text title>ÚLTIMOS REGISTROS</Text>
+            <TableHeader />
             <Table depth={1} />
             <Button onPress={() => navigate('Registry')}>MEUS REGISTROS</Button>
           </Wrapper>

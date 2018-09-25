@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
 import { calcDuration, formatNumber } from '../../utils';
+import TableHeader from '../../components/tableHeader';
 import Table from '../../components/registryTable';
 import Wrapper from '../../components/wrapper';
 import Header from '../../components/header';
@@ -39,10 +40,12 @@ class LoadScreen extends Component {
     const { navigation: { navigate }, registry: { profile: { cash }} } = this.props;
     return(
       <View>
+        {/* HEADER AND TITLE */}
         <Header />
         <List>
           <Wrapper>
             <Text title>ÚLTIMOS 30 DIAS</Text>
+            {/* RESUME */}
             <Card onPress={this.toogleShowCash}>
               <Text label>
                 <StyledIcon name='timer' />
@@ -55,6 +58,8 @@ class LoadScreen extends Component {
                 <StyledIcon name='cash' />
               </Text>
             </Card>
+            {/* TABLE DATA */}
+            <TableHeader />
             <Table />
             <Button onPress={() => navigate('Today')}>HOJE</Button>
           </Wrapper>
