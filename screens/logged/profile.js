@@ -35,9 +35,9 @@ class EditScreen extends Component {
     this.state = {
       loading: true,
       cashMonth: 0,
-      cash: 0,
       journey: 8,
       lunch: 60,
+      cash: 0,
     };
     this.handleSubmit = () => {
       const { displayName, journey, lunch, cash } = this.state;
@@ -47,7 +47,14 @@ class EditScreen extends Component {
     this.setCurrentUserData = () => {
       const { journey, lunch, cash } = this.props.registry.profile;
       const { displayName } = this.props.auth.user;
-      this.setState({ displayName, journey, lunch, cash, cashMonth: Number(cash * 168).toFixed(2), loading: false });
+      this.setState({ 
+        cashMonth: (cash * 168),
+        loading: false,
+        displayName,
+        journey,
+        lunch,
+        cash,
+      });
     }
   }
    
@@ -56,9 +63,7 @@ class EditScreen extends Component {
   }
 
   render() {
-    const { loading, displayName, journey, lunch, cashMonth, cash } = this.state;
-    const { signOut } = this.props;
-    if (loading) return <View><Loader /></View>
+    if (this.state.loading) return <View><Loader /></View>
     return(
       <View>
         <Header />
@@ -67,53 +72,65 @@ class EditScreen extends Component {
           <Text label><StyledIcon name='person' />{' '}NOME:</Text>
           <Input
             placeholder='EU MESMO'
-            value={displayName}
+            value={this.state.displayName}
             onChangeText={displayName => this.setState({ displayName })}
             onBlur={() => this.setState(prevState => ({ displayName: prevState.displayName.toUpperCase() }))}
           />
           <Row>
             <Col>
-              <Text label><StyledIcon name='calendar' />{' '}VALOR MÊS:</Text>
-              <Input
-                placeholder='R$ 0,00'
-                value={cashMonth.toString()}
-                onChangeText={cashMonth => this.setState({ cashMonth })}
-                onBlur={() => this.setState(({ cashMonth }) => ({ cash: Number(cashMonth / 168).toFixed(2), cashMonth: Number(cashMonth).toFixed(2) }))}
-              />
+              <Text label><StyledIcon name='cash' />{' '}VALOR MÊS:</Text>
+              <Row>
+                <Input value='R$' editable={false} />
+                <Col>
+                  <Input
+                    placeholder='R$ 0,00'
+                    keyboardType='number-pad'
+                    value={this.state.cashMonth.toString()}
+                    onChangeText={cashMonth => this.setState({ cashMonth })}
+                    onBlur={() => this.setState(({ cashMonth }) => ({ cash: Math.floor(cashMonth / 168), cashMonth }))}
+                  />
+                </Col>
+              </Row>
             </Col>
             <StyledIcon style={{ marginBottom: -24 }} name='swap' />
             <Col>
-              <Text label><StyledIcon name='timer' />{' '}VALOR HORA:</Text>
-              <Input
-                placeholder='R$ 0,00'
-                value={cash.toString()}
-                onChangeText={cash => this.setState({ cash })}
-                onBlur={() => this.setState(({ cash }) => ({ cashMonth: Number(cash * 168).toFixed(2), cash: Number(cash).toFixed(2) }))}
-              />
+              <Text label><StyledIcon name='cash' />{' '}VALOR HORA:</Text>
+              <Row>
+                <Input value='R$' editable={false} />
+                <Col>
+                  <Input
+                    placeholder='0,00'
+                    keyboardType='number-pad'
+                    value={this.state.cash.toString()}
+                    onChangeText={cash => this.setState({ cash })}
+                    onBlur={() => this.setState(({ cash }) => ({ cashMonth: (cash * 168), cash }))}
+                  />
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Wrapper>
         <Wrapper>
-          <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA: <Value>{journey}h</Value></Text>
+          <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA: <Value>{this.state.journey}h</Value></Text>
             <Slider
               step={1}
-              value={journey}
               minimumValue={4}
               maximumValue={12}
+              value={this.state.journey}
               onValueChange={journey => this.setState({ journey })}
             />
-            <Text label><StyledIcon name='hand' />{' '}ALMOÇO/REPOUSO: <Value>{lunch}min</Value></Text>
+            <Text label><StyledIcon name='hand' />{' '}ALMOÇO/REPOUSO: <Value>{this.state.lunch}min</Value></Text>
             <Slider
               step={15}
-              value={lunch}
               minimumValue={0}
               maximumValue={60}
+              value={this.state.lunch}
               onValueChange={lunch => this.setState({ lunch })}
             />
         </Wrapper>
         <Wrapper>          
           <Button onPress={this.handleSubmit}>SALVAR DADOS</Button>
-          <Button secondary onPress={signOut}>LOGOUT</Button>
+          <Button secondary onPress={this.props.signOut}>LOGOUT</Button>
         </Wrapper>
       </View>
     );

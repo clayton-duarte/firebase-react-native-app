@@ -1,18 +1,18 @@
 import styled from 'styled-components/native';
-import { Constants } from 'expo';
+import React from 'react';
 
-const ListView = styled.ScrollView`
-background-color: ${({ theme }) => theme.bg_secondary};
-border-top-width: ${Constants.statusBarHeight};
-border-color: ${({ theme }) => theme.primary};
-padding-bottom: 12px;
-`;
+import View from './view';
 
-ListView.defaultProps = {
+const ScrollView = styled.ScrollView``;
+
+ScrollView.defaultProps = {
   contentContainerStyle: {
     alignItems: 'stretch',
-    flex: 1,
   },
 }
 
-export default ListView;
+export default props => (
+  <View>
+    <ScrollView {...props}/>
+  </View>
+);

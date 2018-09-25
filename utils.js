@@ -7,6 +7,9 @@ export const capitalize = name => {
   return characters.join('');
 }
 
+export const unFormatNumber = number => Number(number.toString().replace(',', '.')).toFixed(2);
+export const formatNumber = number => Number(unFormatNumber(number)).toFixed(2).toString().replace('.', ',');
+
 export const calcDuration = dayRegistry => {
   if (!dayRegistry) return {};
   const timestamps = dayRegistry.map(position => position.timestamp);
@@ -19,7 +22,7 @@ export const calcDuration = dayRegistry => {
   const afternoon = moment.duration(registry4.diff(registry3)).asHours();
   const morning = moment.duration(registry2.diff(registry1)).asHours();
   const lunch = moment.duration(registry3.diff(registry2)).asHours();
-  const total = (morning + afternoon).toFixed(2);
+  const total = (morning + afternoon);
   // RETURN
   return {
     afternoon,

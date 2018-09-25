@@ -46,13 +46,14 @@ class LoadScreen extends Component {
         <Wrapper>
         <Text label><StyledIcon name='person' />{' '}NOME:</Text>
           <Input
-            placeholder='Meu Nome'
             value={displayName}
             onChangeText={displayName => this.setState({ displayName })}
+            onEndEditing={() => this.setState(prevState => ({ displayName: prevState.displayName.toUpperCase() }))}
           />
           <Text label><StyledIcon name='mail' />{' '}EMAIL:</Text>
           <Input
             value={email}
+            keyboardType='email-address'
             placeholder='email@email.com'
             onChangeText={email => this.setState({ email })}
             onEndEditing={() => this.setState(prevState => ({ email: prevState.email.toLowerCase() }))}
@@ -60,8 +61,8 @@ class LoadScreen extends Component {
           <Text label><StyledIcon name='lock' />{' '}SENHA:</Text>
           <Input
             secureTextEntry
-            placeholder='******'
             value={password}
+            placeholder='******'
             onChangeText={password => this.setState({ password })}
           />
           <Text label><StyledIcon name='briefcase' />{' '}JORNADA DIÁRIA: <Value>{journey}h</Value></Text>

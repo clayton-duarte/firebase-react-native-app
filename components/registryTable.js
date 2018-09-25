@@ -6,7 +6,7 @@ import { Icon } from 'native-base';
 import moment from 'moment';
 import React from 'react';
 
-import { calcDuration } from '../utils';
+import { calcDuration, formatNumber } from '../utils';
 import Hour, { setColor } from './hour';
 import Progress from './progress';
 import Text from './text';
@@ -62,7 +62,7 @@ const Table = ({
                     </Hour>
                   ))}
                 </Wrapper>
-                <Hour total><StyledIcon total name='time'/>{dayTotal}</Hour>
+                <Hour total><StyledIcon total name='time'/>{formatNumber(dayTotal)}</Hour>
               </Row>
             </Col>
           ) : null

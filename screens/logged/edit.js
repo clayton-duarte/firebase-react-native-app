@@ -32,8 +32,8 @@ font-size: 24px;
 
 const IconButton = styled(NbButton)`
 justify-content: center;
-margin: 4px 4px 4px 0;
 align-items: center;
+margin: 4px 0;
 `;
 
 const Col = styled.View`
@@ -107,7 +107,7 @@ class EditScreen extends Component {
             <Wrapper key={`edit-registry-${hour}-${index}`}>
               <Text label>{this.setLabel(index)}</Text>
               <StyledRow>
-                <Col flex={4}>
+                <Col>
                   <StyledInput
                     day={day}
                     type='time'
@@ -115,11 +115,9 @@ class EditScreen extends Component {
                     onChangeText={timestamp => this.updateDayRegistry(timestamp, index)}
                   />
                 </Col>
-                <Col>
-                  <IconButton transparent onPress={() => this.removeRegistry(index)}>
-                    <StyledIcon name='close-circle' />
-                  </IconButton>
-                </Col>
+                <IconButton transparent onPress={() => this.removeRegistry(index)}>
+                  <StyledIcon name='close-circle' />
+                </IconButton>
               </StyledRow>
             </Wrapper>
           ))

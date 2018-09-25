@@ -37,6 +37,7 @@ class LoadScreen extends Component {
           <Text label>EMAIL:</Text>
           <Input
             value={this.state.email}
+            keyboardType='email-address'
             placeholder='email@email.com'
             onChangeText={email => this.setState({ email })}
             onEndEditing={this.onBlurEmail}
