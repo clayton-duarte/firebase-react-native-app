@@ -1,5 +1,6 @@
 import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 import moment from 'moment';
@@ -13,11 +14,13 @@ import Day from './day';
 import Row from './row';
 import Col from './col';
 
+const { width } = Dimensions.get('window');
+
 const View = styled.View``;
 
 const StyledIcon = styled(Icon)`
 color:  ${({ length, index, total, theme }) => setColor({ length, index, total, theme })};
-font-size: 12px;
+font-size: ${(width < 360) ? 10 : 12}px;
 `;
 
 const renderDay = date => {

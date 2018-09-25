@@ -12,31 +12,34 @@ ${({ theme }) => theme.text_shadow};
 font-size: 10px;
 `;
 
-const HomeIcon = styled(Icon)`
+const BackIcon = styled.View`
 background-color: ${({ theme }) => theme.bg_secondary};
-color: ${({ theme }) => theme.secondary};
-${({ theme }) => theme.text_shadow};
 ${({ theme }) => theme.shadow};
 border-radius: 12px;
-text-align: center;
 position: absolute;
-font-size: 18px;
 padding: 2px;
 height: 24px;
 width: 24px;
 margin: 0;
 `;
 
-const FloatIcon = styled(HomeIcon)`
+const StyledIcon = styled(Icon)`
+color: ${({ theme }) => theme.secondary};
+${({ theme }) => theme.text_shadow};
+text-align: center;
+font-size: 18px;
+`;
+
+const FloatIcon = styled(BackIcon)`
 left: ${({ size }) => size}%;
 margin-left: -12px;
 `;
 
-const HomeIcon1 = styled(HomeIcon)`
+const HomeIcon1 = styled(BackIcon)`
 left: -12px;
 `;
 
-const HomeIcon2 = styled(HomeIcon)`
+const HomeIcon2 = styled(BackIcon)`
 right: -12px;
 `;
 
@@ -127,9 +130,9 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
           ))
         }
       </Outside>
-      <HomeIcon1 name='home'/>
-      <HomeIcon2 name='home'/>
-      { (left && left < 100) ? <FloatIcon size={left} name='walk' /> : null }
+      <HomeIcon1><StyledIcon name='home'/></HomeIcon1>
+      <HomeIcon2><StyledIcon name='home'/></HomeIcon2>
+      { (left && left < 100) ? <FloatIcon size={left}><StyledIcon name='walk'/></FloatIcon> : null }
     </Row>
   );
 }

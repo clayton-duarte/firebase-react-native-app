@@ -17,7 +17,7 @@ import { editDay } from '../../actions';
 import Row from '../../components/row';
 
 const StyledRow = styled(Row)`
-width: 100%;
+align-items: center;
 `;
 
 const StyledInput = styled(Input)`
@@ -27,8 +27,17 @@ flex: 1;
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.warn};
 ${({ theme }) => theme.text_shadow};
-margin: 12px 4px 4px 12px;
 font-size: 24px;
+`;
+
+const IconButton = styled(NbButton)`
+justify-content: center;
+margin: 4px 4px 4px 0;
+align-items: center;
+`;
+
+const Col = styled.View`
+flex: ${({ flex }) => flex || 1};
 `;
 
 class EditScreen extends Component {
@@ -98,15 +107,19 @@ class EditScreen extends Component {
             <Wrapper key={`edit-registry-${hour}-${index}`}>
               <Text label>{this.setLabel(index)}</Text>
               <StyledRow>
-                <StyledInput
-                  day={day}
-                  type='time'
-                  value={moment(registry[index].timestamp).format('H:mm')}
-                  onChangeText={timestamp => this.updateDayRegistry(timestamp, index)}
-                />
-                <NbButton transparent onPress={() => this.removeRegistry(index)}>
-                  <StyledIcon name='close-circle' />
-                </NbButton>
+                <Col flex={4}>
+                  <StyledInput
+                    day={day}
+                    type='time'
+                    value={moment(registry[index].timestamp).format('H:mm')}
+                    onChangeText={timestamp => this.updateDayRegistry(timestamp, index)}
+                  />
+                </Col>
+                <Col>
+                  <IconButton transparent onPress={() => this.removeRegistry(index)}>
+                    <StyledIcon name='close-circle' />
+                  </IconButton>
+                </Col>
               </StyledRow>
             </Wrapper>
           ))

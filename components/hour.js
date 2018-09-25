@@ -1,6 +1,9 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
 import Day from './day';
+
+const { width } = Dimensions.get('window');
 
 export const setColor = ({ length, index, total, theme }) => {
   // HIGHTLIGHT TOTAL
@@ -17,8 +20,8 @@ color:  ${({ length, index, total, theme }) => setColor({ length, index, total, 
 background-color: ${({ theme, total }) => total ? theme.bg_secondary : theme.bg_primary};
 border-left-width: ${({ index, total }) => index || total ? 1 : 0}px;
 border-color: ${({ theme }) => theme.bg_secondary};
+font-size: ${(width < 360) ? 10 : 12}px;
 letter-spacing: 2px;
 text-align: center;
 font-weight: bold;
-font-size: 12px;
 `;
