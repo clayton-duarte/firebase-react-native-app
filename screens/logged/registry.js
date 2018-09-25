@@ -10,6 +10,7 @@ import Header from '../../components/header';
 import Button from '../../components/button';
 import List from '../../components/list';
 import Text from '../../components/text';
+import View from '../../components/view';
 
 const Card = styled.View`
 background-color: ${({ theme }) => theme.bg_primary};
@@ -44,26 +45,28 @@ class LoadScreen extends Component {
   render() {
     const { navigation: { navigate }, registry: { profile: { cash }} } = this.props;
     return(
-      <List>
+      <View>
         <Header />
-        <Wrapper>
-          <Text title>ÚLTIMOS 30 DIAS</Text>
-          <Card>
-            <Text label>
-              <StyledIcon name='timer' />
-              {' '}
-              {formatNumber(this.calcTotal())}h
-            </Text>
-            <Text label>
-              R$ {formatNumber(this.calcTotal() * cash)}
-              {' '}
-              <StyledIcon name='cash' />
-            </Text>
-          </Card>
-          <Table />
-          <Button onPress={() => navigate('Today')}>HOJE</Button>
-        </Wrapper>
-      </List>
+        <List>
+          <Wrapper>
+            <Text title>ÚLTIMOS 30 DIAS</Text>
+            <Card>
+              <Text label>
+                <StyledIcon name='timer' />
+                {' '}
+                {formatNumber(this.calcTotal())}h
+              </Text>
+              <Text label>
+                R$ {formatNumber(this.calcTotal() * cash)}
+                {' '}
+                <StyledIcon name='cash' />
+              </Text>
+            </Card>
+            <Table />
+            <Button onPress={() => navigate('Today')}>HOJE</Button>
+          </Wrapper>
+        </List>
+      </View>
     );
   }
 }
