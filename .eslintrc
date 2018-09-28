@@ -1,0 +1,21 @@
+{
+  "env": {
+		"browser": true,
+		"node": true,
+		"es6": true
+  },
+  "parser": "babel-eslint", 
+  "extends": "airbnb",
+  "rules": { 
+		"react/destructuring-assignment": [0],
+		"react/jsx-filename-extension": [0],
+		"react/no-array-index-key": [0],
+		"jsx-a11y/anchor-is-valid": [0],
+		"max-len": [
+			"error", {
+				"code": 200,
+				"tabWidth": 2
+			}
+		]
+  }
+}
