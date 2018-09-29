@@ -62,18 +62,22 @@ export const getPreviousRegistry = () => (dispatch) => {
   // REQUEST
   Database.ref(`${uid}`).once('value')
     .then((snapshot) => {
+      // RETRIEVE INFORMATION
       const { profile, history } = snapshot.val() || {};
       const prevHistory = history || {};
-      const hours = Object.values(prevHistory);
+      // PARSE DATA
       const days = Object.keys(prevHistory);
-      hours.reverse();
+      const dirtyMonths = days.map(day => day.substring(0, 6));
+      const months = dirtyMonths.filter((item, index, self) => (self.indexOf(item) === index));
+      // REVERSE DATA (FOR DECRESCENT TIME)
       days.reverse();
+      months.reverse();
       dispatch({
         type: REGISTRY,
         payload: {
           profile,
           history,
-          hours,
+          months,
           days,
         },
       });

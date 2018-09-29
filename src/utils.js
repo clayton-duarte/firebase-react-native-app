@@ -10,6 +10,8 @@ export const capitalize = (name) => {
 export const unFormatNumber = number => Number(number.toString().replace(',', '.')).toFixed(2);
 export const formatNumber = number => Number(unFormatNumber(number)).toFixed(2).toString().replace('.', ',');
 
+export const filterDaysByMonth = (days, month) => days.filter(day => day.includes(month));
+
 export const calcDuration = (dayRegistry) => {
   // VERIFY
   const { length } = dayRegistry;

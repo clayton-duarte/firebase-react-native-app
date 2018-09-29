@@ -3,20 +3,16 @@ import { objectOf, any } from 'prop-types';
 import { Icon, Button } from 'native-base';
 import { Linking } from 'react-native';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import React from 'react';
 
 import View from './view';
+import List from './list';
 import Text from './text';
 import Row from './row';
 
-const Wrapper = styled.View``;
 
-const StyledRow = styled(Row)`
-background-color: ${({ theme }) => theme.bg_primary};
-justify-content: space-between;
-${({ theme }) => theme.shadow};
-border-right-width: 0;
-`;
+const Wrapper = styled.View``;
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.action};
@@ -30,11 +26,11 @@ font-size: 12px;
 `;
 
 const Item = styled.TouchableOpacity`
+padding: ${({ month }) => (month ? '12px 12px 12px 20px' : '12px')};
 background-color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.shadow};
 flex-direction: row;
 align-items: center;
-padding: 12px;
 `;
 
 const ItemText = styled.Text`
@@ -56,34 +52,48 @@ const MenuItem = ({ children, ...rest }) => (
 );
 
 const Menu = ({
-  navigation: { navigate, closeDrawer }, auth: { user: { displayName } },
+  navigation: { navigate, closeDrawer }, auth: { user: { displayName } }, registry: { months },
 }) => (
   <View>
     {/* FAKE HEADER */}
     <Wrapper>
-      <StyledRow>
+      <Row justify="space-between">
         <Button transparent onPress={closeDrawer}>
           <StyledIcon name="menu" />
         </Button>
         <Text label>
           OLÁ
+          {' '}
           {displayName ? displayName.toUpperCase() : null}
         </Text>
         <Wrapper />
-      </StyledRow>
+      </Row>
     </Wrapper>
     {/* MENU */}
-    <Wrapper>
-      <MenuItem onPress={() => navigate('Today')}>hoje</MenuItem>
-      <MenuItem onPress={() => navigate('Registry')}>registros</MenuItem>
-      {/* <MenuItem onPress={() => navigate('History')}>histórico</MenuItem> */}
-      <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
-    </Wrapper>
+    <List>
+      <Wrapper>
+        <MenuItem onPress={() => navigate('Today')}>hoje</MenuItem>
+        {
+        months
+          ? months.map((month, index) => (
+            <MenuItem
+              onPress={() => navigate('Registry', { month })}
+              key={`menu-month-list-${index}`}
+              month
+            >
+              {moment(month, 'YYYYMM').format('MMMM')}
+            </MenuItem>
+          )) : null
+        }
+        <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
+      </Wrapper>
+    </List>
     {/* CREDITS */}
     <Wrapper>
       <StyledButton transparent onPress={() => Linking.openURL('https://www.linkedin.com/in/clayton-duarte-95b381121/')}>
         <Text label center>
           by
+          {' '}
           <ButtonIcon name="logo-linkedin" />
           {' '}
           clayton duarte
@@ -95,6 +105,7 @@ const Menu = ({
 
 Menu.propTypes = {
   navigation: objectOf(any).isRequired,
+  registry: objectOf(any).isRequired,
   auth: objectOf(any).isRequired,
 };
 

@@ -105,7 +105,7 @@ class EditScreen extends Component {
         <Header />
         <View inset>
           <Wrapper>
-            <Text title>{moment(day).format('LL')}</Text>
+            <Text title>{moment(day).format('LL').toUpperCase()}</Text>
           </Wrapper>
           {
             registry.map((hour, index) => (
