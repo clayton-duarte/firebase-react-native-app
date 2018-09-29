@@ -28,10 +28,15 @@ class Today extends Component {
       this.props.insertNewRegistry({ registry });
     };
     this.goHome = () => {
+      // SETUP
       const { registry: { history, days, profile } } = this.props;
-      if (!days.length) return { time: '--', fromNow: '--' };
+      const exception = { time: '--', fromNow: '--' };
+      // CATCH
+      if (!days.length) return exception;
+      if (days[0] !== moment().format('YYYYMMDD')) return exception;
       const today = history[days[0]];
-      if (!today) return { time: '--', fromNow: '--' };
+      if (!today) return exception;
+      // CALCS
       const { lunch } = calcDuration(today);
       const defaultLunch = moment.duration(profile.lunch, 'm').asHours();
       const todaysLunch = lunch || defaultLunch;

@@ -75,9 +75,10 @@ height: 24px;
 `;
 
 // TIME FUNCTIONS
-const calcTime = (day, duration) => {
+const calcTime = (day, duration, days) => {
   // VERIFY
   if (!day.length) return day;
+  if (days[0] !== moment().format('YYYYMMDD')) return [];
   // CALC
   const { length } = day;
   const { morning, lunch, afternoon } = duration;
@@ -112,7 +113,7 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   const todaysJourney = Number(total > profile.journey ? total : profile.journey);
   const todaysLunch = Number(lunch || moment.duration(profile.lunch, 'm').asHours());
   // CALC PERCENTS OF THIS DURATIONS
-  const percent = calcTime(dayRegistry, { lunch, ...rest }).map(data => (data * 100 / (todaysJourney + todaysLunch)));
+  const percent = calcTime(dayRegistry, { lunch, ...rest }, days).map(data => (data * 100 / (todaysJourney + todaysLunch)));
   // RETURN MINI PROGRESS BAR
   if (mini) {
     return (
