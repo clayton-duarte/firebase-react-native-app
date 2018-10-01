@@ -111,9 +111,19 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   // CALC DURATIONS WORK AND LANCH
   const { total, lunch, ...rest } = calcDuration(dayRegistry);
   const todaysJourney = Number(total > profile.journey ? total : profile.journey);
-  const todaysLunch = Number(lunch || moment.duration(profile.lunch, 'm').asHours());
+  const profileLunch = Number(moment.duration(profile.lunch, 'm').asHours());
   // CALC PERCENTS OF THIS DURATIONS
-  const percent = calcTime(dayRegistry, { lunch, ...rest }, days).map(data => (data * 100 / (todaysJourney + todaysLunch)));
+  const percent = calcTime(dayRegistry, { lunch, ...rest }, days)
+    .map((data) => {
+      const cent = data * 100;
+      // IF TODAY IS TODAY
+      if (day === moment().format('YYYYMMDD')) {
+        if (lunch) return (cent / (todaysJourney + lunch));
+        return (cent / (todaysJourney + profileLunch));
+      }
+      if (lunch) return (cent / (todaysJourney + lunch));
+      return (cent / todaysJourney);
+    });
   // RETURN MINI PROGRESS BAR
   if (mini) {
     return (

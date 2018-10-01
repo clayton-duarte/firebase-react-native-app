@@ -132,8 +132,10 @@ class RegisterScreen extends Component {
             />
           </Wrapper>
           <Wrapper>
-            <Button onPress={this.handleSubmit}>REGISTRAR</Button>
-            <Button secondary onPress={() => navigate('Login', { email: this.state.email })}>JÁ TENHO CADASTRO</Button>
+            <Row>
+              <Button flex={1} secondary onPress={() => navigate('Login', { email: this.state.email })}>VOLTAR</Button>
+              <Button flex={1} onPress={this.handleSubmit}>REGISTRAR</Button>
+            </Row>
           </Wrapper>
         </KeyboardView>
       </View>

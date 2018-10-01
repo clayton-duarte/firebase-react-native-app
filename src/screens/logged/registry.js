@@ -16,6 +16,7 @@ import Card from '../../components/card';
 import List from '../../components/list';
 import Text from '../../components/text';
 import View from '../../components/view';
+import Row from '../../components/row';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
@@ -58,7 +59,7 @@ class LoadScreen extends Component {
   }
 
   render() {
-    const { navigation: { navigate }, registry: { profile: { cash } } } = this.props;
+    const { navigation: { navigate, openDrawer }, registry: { profile: { cash } } } = this.props;
     const { month, loading } = this.state;
     if (loading) return <View><Loader /></View>;
     return (
@@ -88,7 +89,10 @@ class LoadScreen extends Component {
               {/* TABLE DATA */}
               <TableHeader />
               <Table month={month} />
-              <Button onPress={() => navigate('Today')}>HOJE</Button>
+              <Row>
+                <Button flex={1} secondary onPress={() => openDrawer()}>VER MAIS</Button>
+                <Button flex={1} onPress={() => navigate('Today')}>HOJE</Button>
+              </Row>
             </Wrapper>
           </View>
         </List>

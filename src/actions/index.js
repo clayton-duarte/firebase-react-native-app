@@ -27,7 +27,7 @@ export const registerForPushNotifications = () => async (dispatch) => {
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
     finalStatus = status;
   }
-  if (finalStatus !== 'granted') return Alert.alert('Erro!', `notification permission status:${finalStatus}`);
+  if (finalStatus !== 'granted') return Alert.alert('Erro!', `notification permission status: ${finalStatus}`);
 
   const token = await Notifications.getExpoPushTokenAsync();
   // this.subscription = Notifications.addListener(this.handleNotification);
@@ -82,7 +82,7 @@ export const getPreviousRegistry = () => (dispatch) => {
         },
       });
     })
-    .catch(error => Alert.alert('Erro!', `getPreviousRegistry${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
 };
 
 export const makeRegistry = params => (dispatch) => {
@@ -95,7 +95,7 @@ export const makeRegistry = params => (dispatch) => {
       vibrate();
       dispatch(getPreviousRegistry());
     })
-    .catch(error => Alert.alert('Erro!', `makeRegistry${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
   dispatch(getPreviousRegistry());
 };
 
@@ -134,7 +134,7 @@ export const editDay = params => (dispatch) => {
     .then(() => {
       dispatch(getPreviousRegistry());
     })
-    .catch(error => Alert.alert('Erro!', `editDay${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
   // dispatch(getPreviousRegistry());
 };
 
@@ -148,7 +148,7 @@ export const signOut = () => (dispatch) => {
         type: LOG_OUT,
       });
     })
-    .catch(error => Alert.alert('Erro!', `signOut${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
 };
 
 export const signInWithEmailAndPassword = params => (dispatch) => {
@@ -167,7 +167,7 @@ export const signInWithEmailAndPassword = params => (dispatch) => {
       });
     })
     .catch((error) => {
-      Alert.alert('Erro!', `signInWithEmailAndPassword${error}`);
+      Alert.alert('Erro!', `${error.message || error}`);
       dispatch(signOut());
     });
 };
@@ -186,7 +186,7 @@ export const verifyAuthentication = callback => (dispatch) => {
     }
     callback();
   }, (error) => {
-    Alert.alert('Erro!', `verifyAuthentication${error}`);
+    Alert.alert('Erro!', `${error.message || error}`);
     dispatch(signOut());
     callback();
   });
@@ -204,13 +204,13 @@ export const updateProfile = params => (dispatch) => {
         .then(() => {
           dispatch(getPreviousRegistry());
         })
-        .catch(error => Alert.alert(`Erro!${error}`));
+        .catch(error => Alert.alert('Erro!', `${error.message || error}`));
       dispatch({
         type: LOG_IN,
         payload: { user },
       });
     })
-    .catch(error => Alert.alert('Erro!', `updateProfile${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
 };
 
 export const createUserWithEmailAndPassword = params => (dispatch) => {
@@ -221,7 +221,19 @@ export const createUserWithEmailAndPassword = params => (dispatch) => {
     .then(() => {
       dispatch(updateProfile({ ...profile }));
     })
-    .catch(error => Alert.alert('Erro!', `createUserWithEmailAndPassword${error}`));
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
+};
+
+export const sendPasswordResetEmail = params => () => {
+  // SETUP
+  const { email, router } = params;
+  // REQUEST
+  Auth.sendPasswordResetEmail(email)
+    .then(() => {
+      router.navigate('Register', { email });
+      Alert.alert('Enviado!', 'Você receberá um email com instruções em alguns instantes');
+    })
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
 };
 
 export const signInWithProvider = provider => (dispatch) => {
@@ -233,7 +245,7 @@ export const signInWithProvider = provider => (dispatch) => {
       payload: { user },
     });
   }).catch((error) => {
-    Alert.alert('Erro!', `signInWithProvider${error}`);
+    Alert.alert('Erro!', `${error.message || error}`);
     dispatch(signOut());
   });
 };

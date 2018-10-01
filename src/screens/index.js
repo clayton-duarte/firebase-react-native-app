@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import RegisterScreen from './unlogged/register';
 import RegistryScreen from './logged/registry';
 import ProfileScreen from './logged/profile';
+import ForgotScreen from './unlogged/forgot';
 import LoginScreen from './unlogged/login';
 import Loader from '../components/loader';
 import HomeScreen from './logged/home';
@@ -44,6 +45,7 @@ const Logged = createDrawerNavigator({
 
 const Unlogged = createStackNavigator({
   Register: RegisterScreen,
+  Forgot: ForgotScreen,
   Login: LoginScreen,
 }, {
   initialRouteName: 'Login',

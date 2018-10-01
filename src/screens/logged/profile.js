@@ -170,8 +170,10 @@ class EditScreen extends Component {
             />
           </Wrapper>
           <Wrapper>
-            <Button onPress={this.handleSubmit}>SALVAR DADOS</Button>
-            <Button secondary onPress={this.props.signOut}>LOGOUT</Button>
+            <Row>
+              <Button flex={1} secondary onPress={this.props.signOut}>LOGOUT</Button>
+              <Button flex={1} onPress={this.handleSubmit}>SALVAR</Button>
+            </Row>
           </Wrapper>
         </KeyboardView>
       </View>

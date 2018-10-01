@@ -3,14 +3,13 @@ import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { signInWithEmailAndPassword } from '../../actions';
+import { sendPasswordResetEmail } from '../../actions';
 import KeyboardView from '../../components/keyBoardView';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Input from '../../components/input';
 import Text from '../../components/text';
 import View from '../../components/view';
-import Logo from '../../components/logo';
 import Row from '../../components/row';
 
 class LoginScreen extends Component {
@@ -18,8 +17,8 @@ class LoginScreen extends Component {
     super(props);
     this.state = {};
     this.handleSubmit = async () => {
-      const { email, password } = this.state;
-      this.props.signInWithEmailAndPassword({ email, password });
+      const { email } = this.state;
+      this.props.sendPasswordResetEmail({ email, router: this.props.navigation });
     };
     this.onBlurEmail = () => {
       if (this.state.email) this.setState(prevState => ({ email: prevState.email.toLowerCase() }));
@@ -45,9 +44,13 @@ class LoginScreen extends Component {
     return (
       <View>
         <KeyboardView>
-          <Wrapper />
           <Wrapper>
-            <Logo size={100} />
+            <Text title>RECUPERAÇÃO DE SENHA</Text>
+          </Wrapper>
+          <Wrapper>
+            <Text center>
+              Informe o endereço de email cadastrado e clique em enviar. Você receberá um link para resetar a sua senha através dele.
+            </Text>
           </Wrapper>
           <Wrapper>
             <Text label>EMAIL:</Text>
@@ -58,20 +61,12 @@ class LoginScreen extends Component {
               onChangeText={email => this.setState({ email })}
               onEndEditing={this.onBlurEmail}
             />
-            <Text label>SENHA:</Text>
-            <Input
-              secureTextEntry
-              placeholder="******"
-              value={this.state.password}
-              onChangeText={password => this.setState({ password })}
-            />
           </Wrapper>
           <Wrapper>
             <Row>
-              <Button flex={1} secondary onPress={() => navigate('Register', { email: this.state.email })}>CADASTRO</Button>
-              <Button flex={1} onPress={this.handleSubmit}>LOGIN</Button>
+              <Button flex={1} secondary onPress={() => navigate('Login', { email: this.state.email })}>VOLTAR</Button>
+              <Button flex={1} onPress={this.handleSubmit}>ENVIAR</Button>
             </Row>
-            <Text onPress={() => navigate('Forgot')}>esqueci a senha</Text>
           </Wrapper>
         </KeyboardView>
       </View>
@@ -80,9 +75,9 @@ class LoginScreen extends Component {
 }
 
 LoginScreen.propTypes = {
-  signInWithEmailAndPassword: func.isRequired,
+  sendPasswordResetEmail: func.isRequired,
   navigation: objectOf(any).isRequired,
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({ signInWithEmailAndPassword }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ sendPasswordResetEmail }, dispatch);
 export default connect(state => state, mapDispatchToProps)(LoginScreen);

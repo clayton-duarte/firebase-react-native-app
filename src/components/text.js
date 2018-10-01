@@ -2,12 +2,12 @@ import styled from 'styled-components/native';
 import React from 'react';
 
 const Text = styled.Text`
-color: ${({ theme, label, title }) => ((label || title) ? theme.secondary : theme.primary)};
+color: ${({ theme, label, title }) => ((label || title) ? theme.secondary : theme.action)};
+letter-spacing: ${({ label, title, onPress }) => ((label || title || onPress) ? 2 : 0)}px;
 text-align: ${({ center, title }) => ((center || title) ? 'center' : 'left')};
 font-weight: ${({ label, title }) => ((label || title) ? 'bold' : 'normal')};
-letter-spacing: ${({ label, title }) => ((label || title) ? 2 : 0)}px;
-font-size: ${({ label }) => (label ? 12 : 16)}px;
-margin: ${({ title }) => (title ? 0 : 4)}px;
+margin: ${({ title, onPress }) => ((title || onPress) ? '0 auto' : '4px')};
+font-size: ${({ label, onPress }) => ((label || onPress) ? 12 : 16)}px;
 `;
 
 const View = styled.View`
@@ -16,7 +16,15 @@ ${({ theme }) => theme.shadow};
 margin: 4px;
 `;
 
+const InvisibleButton = styled.TouchableOpacity`
+background-color: transparent;
+border-width: 0;
+margin: 4px;
+width: 100%;
+`;
+
 export default (props) => {
+  if (props.onPress) return <InvisibleButton transparent onPress={props.onPress}><Text {...props} /></InvisibleButton>;
   if (props.title) return <View><Text {...props} /></View>;
   return <Text {...props} />;
 };

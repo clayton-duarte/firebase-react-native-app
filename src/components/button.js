@@ -6,6 +6,7 @@ background-color: ${({ theme, secondary, link }) => ((secondary || link) ? 'tran
 border-width: ${({ secondary }) => (secondary ? 2 : 0)}px;
 ${({ theme, link }) => (link ? '' : theme.shadow)};
 border-radius: ${({ theme }) => theme.radius};
+flex: ${({ flex }) => flex || 'auto'};
 padding: 12px;
 margin: 4px;
 `;
