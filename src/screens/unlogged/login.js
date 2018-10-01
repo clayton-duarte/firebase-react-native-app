@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { signInWithEmailAndPassword } from '../../actions';
+import KeyboardView from '../../components/keyBoardView';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Input from '../../components/input';
@@ -22,13 +23,27 @@ class LoginScreen extends Component {
     this.onBlurEmail = () => {
       if (this.state.email) this.setState(prevState => ({ email: prevState.email.toLowerCase() }));
     };
+    this.getDataFromPreviousScreen = () => {
+      const email = this.props.navigation.getParam('email');
+      if (email) this.setState({ email });
+    };
+  }
+
+  componentDidMount() {
+    this.getDataFromPreviousScreen();
+  }
+
+  componentDidUpdate(prevProps) {
+    const email = this.props.navigation.getParam('email');
+    const prevEmail = prevProps.navigation.getParam('email');
+    if (email !== prevEmail) this.getDataFromPreviousScreen();
   }
 
   render() {
     const { navigation: { navigate } } = this.props;
     return (
       <View>
-        <View inset>
+        <KeyboardView>
           <Wrapper />
           <Wrapper>
             <Logo size={100} />
@@ -52,9 +67,9 @@ class LoginScreen extends Component {
           </Wrapper>
           <Wrapper>
             <Button onPress={this.handleSubmit}>LOGIN</Button>
-            <Button secondary onPress={() => navigate('Register')}>CADASTRO</Button>
+            <Button secondary onPress={() => navigate('Register', { email: this.state.email })}>CADASTRO</Button>
           </Wrapper>
-        </View>
+        </KeyboardView>
       </View>
     );
   }

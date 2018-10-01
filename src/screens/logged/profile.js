@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
+import KeyboardView from '../../components/keyBoardView';
 import { updateProfile, signOut } from '../../actions';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
@@ -68,7 +69,7 @@ class EditScreen extends Component {
     return (
       <View>
         <Header />
-        <View inset>
+        <KeyboardView inset behavior="position">
           <Wrapper>
             <Text title>MEU PERFIL</Text>
           </Wrapper>
@@ -172,7 +173,7 @@ class EditScreen extends Component {
             <Button onPress={this.handleSubmit}>SALVAR DADOS</Button>
             <Button secondary onPress={this.props.signOut}>LOGOUT</Button>
           </Wrapper>
-        </View>
+        </KeyboardView>
       </View>
     );
   }

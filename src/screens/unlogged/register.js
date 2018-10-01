@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { Icon } from 'native-base';
 
 import { createUserWithEmailAndPassword } from '../../actions';
+import KeyboardView from '../../components/keyBoardView';
 import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Slider from '../../components/slider';
@@ -31,13 +32,27 @@ class RegisterScreen extends Component {
     this.handleSubmit = () => {
       this.props.createUserWithEmailAndPassword({ ...this.state });
     };
+    this.getDataFromPreviousScreen = () => {
+      const email = this.props.navigation.getParam('email');
+      if (email) this.setState({ email });
+    };
+  }
+
+  componentDidMount() {
+    this.getDataFromPreviousScreen();
+  }
+
+  componentDidUpdate(prevProps) {
+    const email = this.props.navigation.getParam('email');
+    const prevEmail = prevProps.navigation.getParam('email');
+    if (email !== prevEmail) this.getDataFromPreviousScreen();
   }
 
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View>
-        <View inset>
+        <KeyboardView>
           <Wrapper>
             <Text title>CADASTRO</Text>
           </Wrapper>
@@ -50,7 +65,7 @@ class RegisterScreen extends Component {
             <Input
               value={this.state.displayName}
               onChangeText={displayName => this.setState({ displayName })}
-              onEndEditing={() => this.setState(prevState => ({ displayName: prevState.displayName.toUpperCase() }))}
+              onEndEditing={() => this.setState(({ displayName }) => ({ displayName: displayName ? displayName.toUpperCase() : '' }))}
             />
             <Text label>
               <StyledIcon name="mail" />
@@ -62,7 +77,7 @@ class RegisterScreen extends Component {
               placeholder="email@email.com"
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
-              onEndEditing={() => this.setState(prevState => ({ email: prevState.email.toLowerCase() }))}
+              onEndEditing={() => this.setState(({ email }) => ({ email: email ? email.toLowerCase() : '' }))}
             />
             <Text label>
               <StyledIcon name="lock" />
@@ -118,9 +133,9 @@ class RegisterScreen extends Component {
           </Wrapper>
           <Wrapper>
             <Button onPress={this.handleSubmit}>REGISTRAR</Button>
-            <Button secondary onPress={() => navigate('Login')}>JÁ TENHO CADASTRO</Button>
+            <Button secondary onPress={() => navigate('Login', { email: this.state.email })}>JÁ TENHO CADASTRO</Button>
           </Wrapper>
-        </View>
+        </KeyboardView>
       </View>
     );
   }

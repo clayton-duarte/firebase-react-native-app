@@ -5,11 +5,12 @@ import React from 'react';
 // SETUP
 import 'moment/locale/pt-br';
 import moment from 'moment';
-moment.locale('pt-br');
 
 import ConnectedApp from './src/screens';
 import defaultStore from './src/store';
 import defaultTheme from './src/theme';
+
+moment.locale('pt-br');
 
 // CONNECTED APP
 export default () => {
@@ -21,4 +22,4 @@ export default () => {
       </ThemeProvider>
     </StoreProvider>
   );
-}
+};
