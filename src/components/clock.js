@@ -51,7 +51,7 @@ class Clock extends Component {
         case 3:
           return { color: theme.action, text: 'TRABALHANDO', textColor: theme.bg_primary };
         case 2:
-          return { color: theme.warn, text: 'ALMOÇANDO', textColor: theme.bg_primary };
+          return { color: theme.bg_primary, text: 'PAUSA', textColor: theme.warn };
         default:
           return { color: theme.bg_primary, text: 'DESCANSANDO', textColor: theme.secondary };
       }

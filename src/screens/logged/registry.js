@@ -31,15 +31,15 @@ class LoadScreen extends Component {
     this.setMonthToShow = () => {
       let month = this.props.navigation.getParam('month');
       if (!month) month = moment().format('YYYYMM');
-      this.setState({ month, loading: false });
+      const monthName = moment(month, 'YYYYMM').format('MMMM').toUpperCase();
+      this.setState({ month, monthName, loading: false });
     };
     this.toogleShowCash = () => this.setState(prevState => ({ showCash: !prevState.showCash }));
     this.calcTotal = () => {
-      const { history, days, months } = this.props.registry;
+      const { history, days } = this.props.registry;
       if (!days.length) return 0;
-      const currentDays = filterDaysByMonth(days, months[0]);
-      const sum = currentDays.reduce((acc, cur, index) => {
-        if (index === 30) return acc; // LIMIT to last 30 days
+      const currentDays = filterDaysByMonth(days, this.state.month);
+      const sum = currentDays.reduce((acc, cur) => {
         const total = Number(calcDuration(history[cur]).total);
         return acc + total;
       }, 0);
@@ -49,6 +49,12 @@ class LoadScreen extends Component {
 
   componentDidMount() {
     this.setMonthToShow();
+  }
+
+  componentDidUpdate(prevProps) {
+    const month = this.props.navigation.getParam('month');
+    const prevMonth = prevProps.navigation.getParam('month');
+    if (month !== prevMonth) this.setMonthToShow();
   }
 
   render() {
@@ -62,7 +68,7 @@ class LoadScreen extends Component {
         <List>
           <View inset>
             <Wrapper>
-              <Text title>{moment().format('MMMM').toUpperCase()}</Text>
+              <Text title>{this.state.monthName}</Text>
               {/* RESUME */}
               <Card onPress={this.toogleShowCash}>
                 <Text label>

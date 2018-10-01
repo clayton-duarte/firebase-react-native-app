@@ -4,12 +4,11 @@ import { Platform } from 'react-native';
 import theme from '../theme';
 
 const Slider = styled.Slider`
-margin: ${Platform.select({ ios: '0', android: '12px 0' })};
+margin: ${Platform.select({ ios: '0', android: '12' })}px 4px;
 ${theme.shadow};
 `;
 
 Slider.defaultProps = {
-  // maximumTrackTintColor: theme.bg_primary,
   minimumTrackTintColor: theme.secondary,
   thumbTintColor: theme.action,
 };

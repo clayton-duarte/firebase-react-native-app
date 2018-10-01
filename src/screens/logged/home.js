@@ -24,8 +24,8 @@ class Today extends Component {
     super(props);
     this.state = {};
     this.newRegistry = () => {
-      const { registry } = this.props;
-      this.props.insertNewRegistry({ registry });
+      const { registry, navigation } = this.props;
+      this.props.insertNewRegistry({ registry, router: navigation });
     };
     this.goHome = () => {
       // SETUP

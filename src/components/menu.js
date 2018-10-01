@@ -15,39 +15,36 @@ import Row from './row';
 const Wrapper = styled.View``;
 
 const StyledIcon = styled(Icon)`
+font-size: ${({ size }) => size || 20}px;
 color: ${({ theme }) => theme.action};
 ${({ theme }) => theme.text_shadow};
-font-size: 20px;
 `;
 
 const ButtonIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
-font-size: 12px;
+font-size: 20px;
 `;
 
 const Item = styled.TouchableOpacity`
-padding: ${({ month }) => (month ? '12px 12px 12px 20px' : '12px')};
 background-color: ${({ theme }) => theme.bg_primary};
 ${({ theme }) => theme.shadow};
 flex-direction: row;
 align-items: center;
+padding: 12px;
 `;
 
 const ItemText = styled.Text`
 color: ${({ theme }) => theme.action};
 ${({ theme }) => theme.text_shadow};
 letter-spacing: 2px;
+align-items: center;
 font-weight: bold;
 font-size: 12px;
 `;
 
-const StyledButton = styled(Button)`
-margin-left: 12px;
-`;
-
 const MenuItem = ({ children, ...rest }) => (
   <Item {...rest}>
-    <ItemText>{children.toUpperCase()}</ItemText>
+    <ItemText>{children}</ItemText>
   </Item>
 );
 
@@ -72,33 +69,39 @@ const Menu = ({
     {/* MENU */}
     <List>
       <Wrapper>
-        <MenuItem onPress={() => navigate('Today')}>hoje</MenuItem>
+        <MenuItem onPress={() => navigate('Today')}>HOJE</MenuItem>
         {
         months
           ? months.map((month, index) => (
             <MenuItem
-              onPress={() => navigate('Registry', { month })}
+              onPress={() => {
+                navigate('Registry', { month });
+                closeDrawer();
+              }}
               key={`menu-month-list-${index}`}
               month
             >
-              {moment(month, 'YYYYMM').format('MMMM')}
+              <StyledIcon size={12} name="calendar" />
+              {' '}
+              {moment(month, 'YYYYMM').format('MMMM').toUpperCase()}
             </MenuItem>
           )) : null
         }
-        <MenuItem onPress={() => navigate('Profile')}>meu perfil</MenuItem>
+        <MenuItem onPress={() => navigate('Profile')}>MEU PERFIL</MenuItem>
       </Wrapper>
     </List>
     {/* CREDITS */}
     <Wrapper>
-      <StyledButton transparent onPress={() => Linking.openURL('https://www.linkedin.com/in/clayton-duarte-95b381121/')}>
-        <Text label center>
-          by
-          {' '}
+      <Row justify="space-between">
+        <Button transparent onPress={() => Linking.openURL('https://www.linkedin.com/in/clayton-duarte-95b381121/')}>
           <ButtonIcon name="logo-linkedin" />
-          {' '}
-          clayton duarte
-        </Text>
-      </StyledButton>
+          <Text label>CONTATO</Text>
+        </Button>
+        <Button transparent onPress={() => Linking.openURL('https://github.com/clayton-duarte/')}>
+          <Text label>PROJETOS</Text>
+          <ButtonIcon name="logo-github" />
+        </Button>
+      </Row>
     </Wrapper>
   </View>
 );

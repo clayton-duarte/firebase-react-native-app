@@ -8,6 +8,7 @@ const initialState = {
     lunch: 60,
     cash: 0,
   },
+  months: [],
   hours: [],
   days: [],
 };
