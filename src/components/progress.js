@@ -107,7 +107,9 @@ const iconList = ['briefcase', 'hand', 'briefcase', 'add'];
 
 const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   // GET A DAY OR TODAY
-  const dayRegistry = ((day.length && days.length) ? day : history[days[0]]);
+  let dayRegistry = [];
+  if (day.length) dayRegistry = day;
+  else if (days.length) dayRegistry = history[days[0]];
   // CALC DURATIONS WORK AND LANCH
   const { total, lunch, ...rest } = calcDuration(dayRegistry);
   const todaysJourney = Number(total > profile.journey ? total : profile.journey);
