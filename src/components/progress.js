@@ -110,7 +110,7 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
   let dayRegistry = [];
   if (day.length) dayRegistry = day;
   else if (days.length) dayRegistry = history[days[0]];
-  // CALC DURATIONS WORK AND LANCH
+  // CALC DURATIONS WORK AND LUNCH
   const { total, lunch, ...rest } = calcDuration(dayRegistry);
   const todaysJourney = Number(total > profile.journey ? total : profile.journey);
   const profileLunch = Number(moment.duration(profile.lunch, 'm').asHours());

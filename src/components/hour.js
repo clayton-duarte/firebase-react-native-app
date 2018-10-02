@@ -26,8 +26,8 @@ color:  ${({
 background-color: ${({ theme, total }) => (total ? theme.bg_secondary : theme.bg_primary)};
 border-left-width: ${({ index, total }) => (index || total ? 1 : 0)}px;
 border-color: ${({ theme }) => theme.bg_secondary};
-font-size: ${(width < 360) ? 10 : 12}px;
+font-size: ${(width < 360) ? 12 : 16}px;
+font-family: custom-font-bold;
 letter-spacing: 2px;
 text-align: center;
-font-weight: bold;
 `;

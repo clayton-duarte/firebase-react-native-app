@@ -4,10 +4,10 @@ import React from 'react';
 const Text = styled.Text`
 color: ${({ theme, label, title }) => ((label || title) ? theme.secondary : theme.action)};
 letter-spacing: ${({ label, title, onPress }) => ((label || title || onPress) ? 2 : 0)}px;
+font-family: custom-font${({ label, title }) => ((label || title) ? '-bold' : '')};
 text-align: ${({ center, title }) => ((center || title) ? 'center' : 'left')};
-font-weight: ${({ label, title }) => ((label || title) ? 'bold' : 'normal')};
 margin: ${({ title, onPress }) => ((title || onPress) ? '0 auto' : '4px')};
-font-size: ${({ label, onPress }) => ((label || onPress) ? 12 : 16)}px;
+font-size: ${({ label, onPress }) => ((label || onPress) ? 16 : 20)}px;
 `;
 
 const View = styled.View`

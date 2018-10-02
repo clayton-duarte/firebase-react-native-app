@@ -14,10 +14,10 @@ margin: 4px;
 const Text = styled.Text`
 color: ${({ theme, secondary, link }) => ((secondary || link) ? theme.action : theme.bg_primary)};
 ${({ theme, secondary, link }) => ((secondary || link) ? '' : theme.text_shadow)};
+font-family: custom-font-bold;
 letter-spacing: 2px;
 text-align: center;
-font-weight: bold;
-font-size: 12px;
+font-size: 16px;
 `;
 
 export default props => (<Touch {...props}><Text {...props} /></Touch>);

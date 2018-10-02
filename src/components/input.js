@@ -10,10 +10,11 @@ import theme from '../theme';
 const Input = styled.TextInput`
 background-color:  ${theme.bg_primary};
 border-radius: ${theme.radius};
+font-family: custom-font;
 color:  ${theme.primary};
 letter-spacing: 0.5px;
 ${theme.shadow};
-font-size: 16px;
+font-size: 20px;
 padding: 12px;
 margin: 4px;
 `;
@@ -35,9 +36,10 @@ margin: 4px;
 `;
 
 const Text = styled.Text`
-color:  ${theme.primary};
+font-family: custom-font;
+color: ${theme.primary};
 letter-spacing: 0.5px;
-font-size: 16px;
+font-size: 20px;
 `;
 
 class Picker extends Component {

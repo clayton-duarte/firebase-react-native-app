@@ -18,11 +18,12 @@ const StyledIcon = styled(Icon)`
 font-size: ${({ size }) => size || 20}px;
 color: ${({ theme }) => theme.action};
 ${({ theme }) => theme.text_shadow};
+font-family: custom-font;
 `;
 
 const ButtonIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
-font-size: 20px;
+font-size: 16px;
 `;
 
 const Item = styled.TouchableOpacity`
@@ -36,10 +37,10 @@ padding: 12px;
 const ItemText = styled.Text`
 color: ${({ theme }) => theme.action};
 ${({ theme }) => theme.text_shadow};
+font-family: custom-font-bold;
 letter-spacing: 2px;
 align-items: center;
-font-weight: bold;
-font-size: 12px;
+font-size: 16px;
 `;
 
 const MenuItem = ({ children, ...rest }) => (

@@ -6,11 +6,11 @@ const { width } = Dimensions.get('window');
 export default styled.Text`
 background-color: ${({ theme }) => theme.secondary};
 color: ${({ theme }) => theme.bg_primary};
-font-size: ${(width < 360) ? 10 : 12}px;
+font-size: ${(width < 360) ? 12 : 16}px;
 flex: ${({ flex }) => flex || 1};
+font-family: custom-font-bold;
 letter-spacing: 2px;
 text-align: center;
-font-weight: bold;
 align-self: auto;
 padding: 4px 0;
 `;

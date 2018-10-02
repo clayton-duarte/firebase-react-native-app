@@ -6,9 +6,9 @@ import React from 'react';
 
 const StyledIcon1 = styled(Icon)`
 color: ${({ theme }) => theme.warn};
-font-size: ${({ size }) => size}px;
 left: ${({ size }) => size * 0.1}px;
 top: ${({ size }) => size * 0.05}px;
+font-size: ${({ size }) => size}px;
 position: absolute;
 align-self: center;
 `;

@@ -19,19 +19,19 @@ width: 200px;
 
 const Time = styled.Text`
 color: ${({ color }) => color};
+font-family: custom-font-bold;
 ${theme.text_shadow};
-letter-spacing: -2px;
+letter-spacing: -4px;
 text-align: center;
-font-weight: bold;
-font-size: 40px;
+font-size: 48px;
 `;
 
 const Text = styled.Text`
+font-family: custom-font-bold;
 color: ${theme.secondary};
 letter-spacing: 2px;
 text-align: center;
-font-weight: bold;
-font-size: 12px;
+font-size: 16px;
 `;
 class Clock extends Component {
   constructor(props) {
