@@ -105,7 +105,7 @@ class LoadScreen extends Component {
             </Wrapper>
           </View>
         </List>
-        <Fab onPress={this.openDatePicker} />
+        <Fab icon="create" onPress={this.openDatePicker} />
         <DateTimePicker
           titleIOS="Escolha um dia para adicionar"
           isVisible={this.state.datePicker}

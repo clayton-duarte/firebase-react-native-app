@@ -256,6 +256,20 @@ export const signInWithGoogle = () => (dispatch) => {
   dispatch(signInWithProvider(Google));
 };
 
+// WORKPLACE
+export const registerWorkplace = ({ profile }) => async (dispatch) => {
+  // SETUP
+  const user = Auth.currentUser;
+  const { uid } = user;
+  const workplace = await getPosition();
+  // REQUEST
+  Database.ref(`${uid}/profile`).set({ ...profile, workplace })
+    .then(() => {
+      dispatch(getPreviousRegistry());
+    })
+    .catch(error => Alert.alert('Erro!', `${error.message || error}`));
+};
+
 // CLOCK
 export const internalClock = () => (dispatch) => {
   dispatch({

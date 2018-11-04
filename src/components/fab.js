@@ -24,4 +24,12 @@ text-align: center;
 font-size: 20px;
 `;
 
-export default props => (<Touch {...props}><StyledIcon name="create" /></Touch>);
+export default props => (
+  <Touch {...props}>
+    {
+      props.children
+        ? props.children
+        : <StyledIcon name={props.icon || 'add'} />
+    }
+  </Touch>
+);

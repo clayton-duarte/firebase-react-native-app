@@ -1,12 +1,15 @@
 import { bindActionCreators } from 'redux';
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { getDistance } from 'geolib';
 import moment from 'moment';
 import {
   objectOf, any, func, string,
 } from 'prop-types';
 
-import { insertNewRegistry, sendPushNotification } from '../../actions';
+import { insertNewRegistry, sendPushNotification, registerWorkplace } from '../../actions';
+import { calcDuration, getPosition } from '../../utils';
 import TableHeader from '../../components/tableHeader';
 import Table from '../../components/registryTable';
 import Progress from '../../components/progress';
@@ -14,10 +17,15 @@ import Wrapper from '../../components/wrapper';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Clock from '../../components/clock';
-import { calcDuration } from '../../utils';
 import View from '../../components/view';
 import Text from '../../components/text';
+import Fab from '../../components/fab';
 
+const StrechedView = styled.View`
+justify-content: center;
+align-items: center;
+flex: 1;
+`;
 
 class Today extends Component {
   constructor(props) {
@@ -53,11 +61,36 @@ class Today extends Component {
         body: `Você já trabalhou as suas ${journey} horas diárias. Hora de ir para casa.`,
       });
     };
+    this.registerWorkplace = () => {
+      const { profile } = this.props.registry;
+      this.props.registerWorkplace({ profile });
+    };
+    this.getDistance = async () => {
+      const myPosition = await getPosition();
+      const { workplace } = this.props.registry.profile;
+      if (!workplace) return false;
+      const distance = await getDistance(myPosition.coords, workplace.coords).toString();
+      if (!distance) return false;
+      return this.setState({ distance });
+    };
+    this.startGPS = () => {
+      const gps = setInterval(this.getDistance, 5000);
+      this.setState({ gps });
+    };
+    this.stopGPS = () => clearInterval(this.state.gps);
+  }
+
+  componentDidMount() {
+    this.startGPS();
   }
 
   componentDidUpdate() {
     const { now } = this.props;
     if (now && this.goHome().time === moment(now, 'x').format('H:mm')) this.notifyGoHome();
+  }
+
+  componentWillUnmount() {
+    this.stopGPS();
   }
 
   render() {
@@ -83,7 +116,14 @@ class Today extends Component {
               )
             </Text>
           </Wrapper>
-          <Clock onPress={this.newRegistry} />
+          <StrechedView>
+            <Clock onPress={this.newRegistry} />
+            <Fab icon="pin" onPress={this.registerWorkplace}>
+              {
+                this.state.distance && <Text label>{this.state.distance}m</Text>
+                }
+            </Fab>
+          </StrechedView>
           <Wrapper>
             <TableHeader />
             <Table depth={1} />
@@ -99,10 +139,11 @@ Today.propTypes = {
   notification: objectOf(any).isRequired,
   sendPushNotification: func.isRequired,
   navigation: objectOf(any).isRequired,
+  registerWorkplace: func.isRequired,
   insertNewRegistry: func.isRequired,
   registry: objectOf(any).isRequired,
   now: string.isRequired,
 };
 
-const mapDispatchToProps = dispatch => bindActionCreators({ insertNewRegistry, sendPushNotification }, dispatch);
+const mapDispatchToProps = dispatch => bindActionCreators({ insertNewRegistry, sendPushNotification, registerWorkplace }, dispatch);
 export default connect(state => state, mapDispatchToProps)(Today);
