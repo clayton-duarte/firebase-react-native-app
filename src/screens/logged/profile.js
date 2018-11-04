@@ -39,18 +39,20 @@ class EditScreen extends Component {
     };
     this.handleSubmit = () => {
       const {
-        displayName, journey, lunch, cash,
+        displayName, journey, lunch, cash, cashMonth,
       } = this.state;
       this.props.updateProfile({
-        displayName, journey, lunch, cash,
+        displayName, journey, lunch, cash, cashMonth,
       });
       this.props.navigation.goBack();
     };
     this.setCurrentUserData = () => {
-      const { journey, lunch, cash } = this.props.registry.profile;
+      const {
+        journey, lunch, cash, cashMonth,
+      } = this.props.registry.profile;
       const { displayName } = this.props.auth.user;
       this.setState({
-        cashMonth: (cash * 168),
+        cashMonth: cashMonth || (cash * 168),
         loading: false,
         displayName,
         journey,

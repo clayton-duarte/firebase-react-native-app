@@ -120,7 +120,12 @@ class Today extends Component {
             <Clock onPress={this.newRegistry} />
             <Fab icon="pin" onPress={this.registerWorkplace}>
               {
-                this.state.distance && <Text label>{this.state.distance}m</Text>
+                this.state.distance && (
+                <Text label>
+                  {this.state.distance}
+                  m
+                </Text>
+                )
                 }
             </Fab>
           </StrechedView>
