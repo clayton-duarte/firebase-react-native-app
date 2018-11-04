@@ -31,33 +31,20 @@ class EditScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
       cashMonth: 0,
       journey: 8,
       lunch: 60,
       cash: 0,
     };
     this.handleSubmit = () => {
-      const {
-        displayName, journey, lunch, cash, cashMonth,
-      } = this.state;
-      this.props.updateProfile({
-        displayName, journey, lunch, cash, cashMonth,
-      });
+      this.props.updateProfile({ ...this.state });
       this.props.navigation.goBack();
     };
     this.setCurrentUserData = () => {
-      const {
-        journey, lunch, cash, cashMonth,
-      } = this.props.registry.profile;
-      const { displayName } = this.props.auth.user;
+      const { profile } = this.props.registry;
       this.setState({
-        cashMonth: cashMonth || (cash * 168),
-        loading: false,
-        displayName,
-        journey,
-        lunch,
-        cash,
+        loaded: true,
+        ...profile,
       });
     };
   }
@@ -67,7 +54,7 @@ class EditScreen extends Component {
   }
 
   render() {
-    if (this.state.loading) return <View><Loader /></View>;
+    if (!this.state.loaded) return <View><Loader /></View>;
     return (
       <View>
         <Header />
@@ -118,7 +105,7 @@ class EditScreen extends Component {
                 <Row>
                   <Col>
                     <Input
-                      placeholder="0,00"
+                      placeholder="R$ 0,00"
                       keyboardType="number-pad"
                       value={this.state.cash.toString()}
                       onChangeText={cash => this.setState({ cash })}
@@ -186,7 +173,6 @@ class EditScreen extends Component {
 EditScreen.propTypes = {
   navigation: objectOf(any).isRequired,
   registry: objectOf(any).isRequired,
-  auth: objectOf(any).isRequired,
   updateProfile: func.isRequired,
   signOut: func.isRequired,
 };

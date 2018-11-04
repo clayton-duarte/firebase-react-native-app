@@ -75,10 +75,9 @@ height: 24px;
 `;
 
 // TIME FUNCTIONS
-const calcTime = (day, duration, days) => {
+const calcTime = (day, duration) => {
   // VERIFY
-  if (!day.length) return day;
-  if (days[0] !== moment().format('YYYYMMDD')) return [];
+  if (!day.length) return [];
   // CALC
   const { length } = day;
   const { morning, lunch, afternoon } = duration;
@@ -144,11 +143,16 @@ const Progress = ({ registry: { history, days, profile }, day, mini }) => {
     <Row>
       <Outside>
         {
-          percent.map((size, index) => (
-            <Inside key={`progress-inside-bar-${dayRegistry}-${index}`} index={index} size={size}>
-              <InsideIcon name={iconList[index]} />
-            </Inside>
-          ))
+          // JUST SHOW THIS IF ITS TODAY
+          day === moment().format('YYYYMMDD')
+            ? (
+              percent.map((size, index) => (
+                <Inside key={`progress-inside-bar-${dayRegistry}-${index}`} index={index} size={size}>
+                  <InsideIcon name={iconList[index]} />
+                </Inside>
+              ))
+            )
+            : null
         }
       </Outside>
       <HomeIcon1><StyledIcon name="home" /></HomeIcon1>

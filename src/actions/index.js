@@ -199,9 +199,8 @@ export const updateProfile = params => (dispatch) => {
     .then(() => {
       const user = Auth.currentUser;
       const { uid, email } = user;
-      console.log('user', user);
       // UPDATE PROFILE
-      Database.ref(`${uid}/profile`).set({ displayName, email, ...profile })
+      Database.ref(`${uid}/profile`).set({ ...profile, displayName, email })
         .then(() => {
           dispatch(getPreviousRegistry());
         })
