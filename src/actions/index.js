@@ -116,7 +116,7 @@ export const insertNewRegistry = params => async (dispatch) => {
       'Todas as entradas deste dia já foram preenchidas',
       [
         { text: 'Voltar' },
-        { text: 'Editar Dia', onPress: () => router.navigate('Editar', { day }) },
+        { text: 'Editar Dia', onPress: () => router.navigate('Edit', { day }) },
       ],
     );
   }
