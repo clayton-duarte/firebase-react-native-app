@@ -52,7 +52,7 @@ class EditScreen extends Component {
     this.setCurrentDay = () => {
       const day = this.props.navigation.getParam('day');
       if (!day) return this.props.navigation.goBack();
-      const registry = this.props.registry.history[day];
+      const registry = this.props.registry.history[day] || [];
       return this.setState({ registry, day });
     };
     this.updateDayRegistry = async (timestamp, index) => {

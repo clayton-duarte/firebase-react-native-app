@@ -4,6 +4,7 @@ import { objectOf, any } from 'prop-types';
 import { Icon, Button } from 'native-base';
 import React from 'react';
 
+import { expo as info } from '../../app.json';
 import Text from './text';
 import Logo from './logo';
 import Row from './row';
@@ -21,6 +22,10 @@ justify-content: space-between;
 border-right-width: 0;
 `;
 
+const StyledText = styled(Text)`
+font-size: 10px;
+`;
+
 const Header = ({ navigation: { navigate, openDrawer } }) => (
   <StyledRow underline>
     <Button transparent onPress={openDrawer}>
@@ -28,7 +33,11 @@ const Header = ({ navigation: { navigate, openDrawer } }) => (
     </Button>
     <StyledRow>
       <Logo size={20} />
-      <Text label>MEU PONTO VIRTUAL</Text>
+      <Text label>
+        PONTO VIRTUAL
+        {' '}
+        <StyledText label>{info.version}</StyledText>
+      </Text>
     </StyledRow>
     <Button transparent onPress={() => navigate('Profile')}>
       <StyledIcon name="person" />

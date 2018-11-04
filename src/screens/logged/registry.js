@@ -1,3 +1,4 @@
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import styled from 'styled-components/native';
 import { objectOf, any } from 'prop-types';
 import React, { Component } from 'react';
@@ -17,6 +18,7 @@ import List from '../../components/list';
 import Text from '../../components/text';
 import View from '../../components/view';
 import Row from '../../components/row';
+import Fab from '../../components/fab';
 
 const StyledIcon = styled(Icon)`
 color: ${({ theme }) => theme.secondary};
@@ -45,6 +47,13 @@ class LoadScreen extends Component {
         return acc + total;
       }, 0);
       return sum;
+    };
+    this.openDatePicker = () => this.setState({ datePicker: true });
+    this.onCancel = () => this.setState({ datePicker: false });
+    this.onConfirm = async (date) => {
+      await this.onCancel();
+      const day = moment(date).format('YYYYMMDD');
+      this.props.navigation.navigate('Edit', { day });
     };
   }
 
@@ -96,6 +105,16 @@ class LoadScreen extends Component {
             </Wrapper>
           </View>
         </List>
+        <Fab onPress={this.openDatePicker} />
+        <DateTimePicker
+          titleIOS="Escolha um dia para adicionar"
+          isVisible={this.state.datePicker}
+          onConfirm={this.onConfirm}
+          confirmTextIOS="Confirmar"
+          onCancel={this.onCancel}
+          cancelTextIOS="Cancelar"
+          mode="date"
+        />
       </View>
     );
   }

@@ -65,7 +65,9 @@ class Picker extends Component {
         <DateTimePicker
           isVisible={this.state.visible}
           onConfirm={this.onConfirm}
+          confirmTextIOS="Confirmar"
           onCancel={this.onCancel}
+          cancelTextIOS="Cancelar"
           mode="time"
         />
       </Touch>

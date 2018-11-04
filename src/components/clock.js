@@ -23,7 +23,7 @@ font-family: custom-font-bold;
 ${theme.text_shadow};
 letter-spacing: -4px;
 text-align: center;
-font-size: 48px;
+font-size: 40px;
 `;
 
 const Text = styled.Text`
